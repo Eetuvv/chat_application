@@ -19,7 +19,7 @@ public class Registration {
     }
 
     private void initComponents() {
-        Users users = new Users();
+        Authentication users = new Authentication();
 
         registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         registrationFrame.setSize(850, 700);

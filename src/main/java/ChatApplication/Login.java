@@ -13,7 +13,7 @@ public class Login extends JFrame {
     }
 
     private void initComponents() {
-        Users users = new Users();
+        Authentication users = new Authentication();
 
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setSize(850, 700);

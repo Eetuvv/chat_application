@@ -2,11 +2,11 @@ package ChatApplication;
 
 import java.util.HashMap;
 
-public class Users {
+public class Authentication {
 
     private HashMap<String, User> users;
     
-    public Users() {
+    public Authentication() {
         this.users = new HashMap<>();
     }
 
