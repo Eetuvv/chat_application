@@ -11,15 +11,16 @@ import javax.swing.JTextField;
 
 public class Registration {
 
-    private JFrame registrationFrame = new JFrame("Registration");
-    private JPanel registrationPanel = new JPanel();
+    private final JFrame registrationFrame = new JFrame("Registration");
+    private final JPanel registrationPanel = new JPanel();
     
     public Registration() {
         initComponents();
     }
 
     private void initComponents() {
-        Authentication users = new Authentication();
+        // Get an instance of authentication class
+        Authentication authentication = Authentication.getInstance();
 
         registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         registrationFrame.setSize(850, 700);
@@ -29,6 +30,7 @@ public class Registration {
         registrationPanel.setBackground(new java.awt.Color(60, 63, 65));
         Color textColor = new java.awt.Color(187, 187, 187);
 
+        // Create all components for registration window
         JLabel titleLabel = new JLabel("Rekisteröityminen");
         titleLabel.setFont(new java.awt.Font("Dialog", 1, 35));
         titleLabel.setBounds(275, 20, 400, 100);
@@ -75,7 +77,8 @@ public class Registration {
         loginButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
         loginButton.setText("Jo käyttäjä? Kirjaudu");
         loginButton.setBounds(275, 500, 300, 40);
-
+        
+        // Add components to JPanel
         registrationPanel.add(titleLabel);
         registrationPanel.add(usernameLabel);
         registrationPanel.add(usernameField);
@@ -86,48 +89,45 @@ public class Registration {
         registrationPanel.add(loginButton);
         registrationPanel.add(registerButton);
 
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String user = usernameField.getText();
-                String password = passwordField.getText();
-                String email = emailField.getText();
-                String nickname = user;
-
-                if (password.isEmpty() || user.isEmpty() || email.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Käyttäjänimi/salasana ei saa olla tyhjä", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
+        // Add functionality to register button
+        registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            String user = usernameField.getText();
+            String password = passwordField.getText();
+            String email = emailField.getText();
+            String nickname = user;
+            
+            if (password.isEmpty() || user.isEmpty() || email.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Käyttäjänimi/salasana ei saa olla tyhjä", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (!authentication.addUser(user, password, email, nickname)) {
+                    JOptionPane.showMessageDialog(null, "Käyttäjänimi on jo rekisteröity", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    if (!users.addUser(user, password, email, nickname)) {
-                        JOptionPane.showMessageDialog(null, "Käyttäjänimi on jo rekisteröity", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Rekisteröityminen onnistui", "Rekisteröityminen", JOptionPane.INFORMATION_MESSAGE);
-                        registrationFrame.setVisible(false);
-                        Login login = new Login();
-                        login.setVisible(true);
-                    }
+                    JOptionPane.showMessageDialog(null, "Rekisteröityminen onnistui", "Rekisteröityminen", JOptionPane.INFORMATION_MESSAGE);
+                    registrationFrame.setVisible(false);
+                    Login login = new Login();
+                    login.setVisible(true);
                 }
-                // Focus to username field
-                usernameField.requestFocus();
             }
+            // Focus to username field
+            usernameField.requestFocus();
         });
         
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setVisible(false);
-                Login login = new Login();
-                login.setVisible(true);
-            }
+        // Add functionality to login button
+        loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            setVisible(false);
+            Login login = new Login();
+            login.setVisible(true);
         });
     }
+    // Set visiblity of registration window
     void setVisible(boolean visible) {
         registrationFrame.setVisible(visible);
     }
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Registration registration = new Registration();
-                registration.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Registration registration = new Registration();
+            registration.setVisible(true);
         });
     }
 }

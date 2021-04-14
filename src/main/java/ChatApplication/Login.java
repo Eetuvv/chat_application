@@ -1,19 +1,20 @@
 package ChatApplication;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import javax.swing.*;
 
 public class Login extends JFrame {
 
-    private JFrame loginFrame = new JFrame("Login");
-    private JPanel loginPanel = new JPanel();
+    private final JFrame loginFrame = new JFrame("Login");
+    private final JPanel loginPanel = new JPanel();
 
     public Login() {
         initComponents();
     }
 
     private void initComponents() {
-        Authentication users = new Authentication();
+        Authentication authentication = Authentication.getInstance();
 
         loginFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         loginFrame.setSize(850, 700);
@@ -23,6 +24,7 @@ public class Login extends JFrame {
         loginPanel.setBackground(new java.awt.Color(60, 63, 65));
         Color textColor = new java.awt.Color(187, 187, 187);
 
+        // Create all components for login window
         JLabel titleLabel = new JLabel("Kirjautuminen");
         titleLabel.setFont(new java.awt.Font("Dialog", 1, 44));
         titleLabel.setBounds(275, 20, 300, 100);
@@ -63,6 +65,7 @@ public class Login extends JFrame {
         registerButton.setText("Uusi käyttäjä? Rekisteröidy");
         registerButton.setBounds(275, 440, 300, 40);
 
+        // Add components to JPanel
         loginPanel.add(titleLabel);
         loginPanel.add(usernameLabel);
         loginPanel.add(usernameField);
@@ -72,44 +75,53 @@ public class Login extends JFrame {
         loginPanel.add(loginButton);
         loginPanel.add(registerButton);
 
-        loginButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String user = usernameField.getText();
-                String password = passwordField.getText();
-
-                if (password.isEmpty() || user.isEmpty()) {
-                    JOptionPane.showMessageDialog(null, "Käyttäjätunnus/salasana ei saa olla tyhjä", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
+        // Set login button functionality
+        loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            String user = usernameField.getText();
+            String password = passwordField.getText();
+            
+            if (password.isEmpty() || user.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Käyttäjätunnus/salasana ei saa olla tyhjä", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
+            } else {
+                // Check if username and password are correct
+                if (authentication.authenticateUser(user, password)) {
+                    authentication.setLoggedUser(user);
+                    System.out.println("Käyttäjä " + authentication.getLoggedUser() + " kirjautui sisään.");
                 } else {
-                    if (users.authenticateUser(user, password)) {
-                        System.out.println("Ok");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
-                    }
+                    JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 }
-                // Focus to username field
-                usernameField.requestFocus();
             }
+            // Focus to username field
+            usernameField.requestFocus();
         });
         
-        registerButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                setVisible(false);
-                Registration registration = new Registration();
-                registration.setVisible(true);
+        // Set register button functionality
+        registerButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            setVisible(false);
+            Registration registration = new Registration();
+            registration.setVisible(true);
+        });
+        
+        // Make password visible when checkbox is clicked
+        passwordCheckBox.addActionListener((ActionEvent e) -> {
+            if (passwordCheckBox.isSelected()) {
+                passwordField.setEchoChar((char)0);
+            } else {
+                passwordField.setEchoChar('*');
             }
         });
     }
     
+    // Set visibility of login window
+    @Override
     public void setVisible(boolean visible) {
         loginFrame.setVisible(visible);
     }
 
     public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Login login = new Login();
-                login.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Login login = new Login();
+            login.setVisible(true);
         });
     }
 }
