@@ -158,12 +158,6 @@ public class Registration {
         });
     }
 
-    public void keyPressed(KeyEvent e) {
-        if (e.getKeyCode() == KeyEvent.VK_ENTER) {
-        }
-
-    }
-
     // Set visiblity of registration window
     void setVisible(boolean visible) {
         registrationFrame.setVisible(visible);
