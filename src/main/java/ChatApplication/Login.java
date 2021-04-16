@@ -4,7 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 public class Login extends JFrame {
 
@@ -100,6 +107,11 @@ public class Login extends JFrame {
                 if (authentication.authenticateUser(user, password)) {
                     authentication.setLoggedUser(user);
                     System.out.println("Käyttäjä " + authentication.getLoggedUser() + " kirjautui sisään.");
+                    
+                    this.setVisible(false);
+                    Chat chatWindow = new Chat();
+                    chatWindow.setVisible(true);
+                    
                 } else {
                     JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 }
