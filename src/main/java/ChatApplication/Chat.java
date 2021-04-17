@@ -66,13 +66,15 @@ public class Chat extends JFrame {
             }
         };
 
+        // Add JPanel to JFrame
         chatFrame.add(chatPanel);
         chatPanel.setLayout(null);
         chatPanel.setBackground(new java.awt.Color(60, 63, 65));
 
         Color textColor = new java.awt.Color(187, 187, 187);
         Color buttonColor = new java.awt.Color(60, 60, 60);
-        // Create all components for login window
+        
+        // Create all components for chat window
         JLabel channelLabel = new JLabel("Kanava");
         channelLabel.setFont(new java.awt.Font("Dialog", 1, 34));
         channelLabel.setBounds(78, 30, 225, 50);
@@ -183,6 +185,11 @@ public class Chat extends JFrame {
 
             JOptionPane.showMessageDialog(null, panel);*/
         });
+        
+        createChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            String name1 = JOptionPane.showInputDialog(chatFrame,
+                    "Syötä uuden kanvan nimi", null);
+        });
 
         logoutButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             this.setVisible(false);
@@ -266,7 +273,6 @@ public class Chat extends JFrame {
         });
     }
 
-    // Set visibility of login window
     @Override
     public void setVisible(boolean visible) {
         chatFrame.setVisible(visible);
