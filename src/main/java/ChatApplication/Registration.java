@@ -3,9 +3,6 @@ package ChatApplication;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -14,7 +11,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class Registration {
+public class Registration extends JFrame {
 
     private final JFrame registrationFrame = new JFrame("Registration");
     private final JPanel registrationPanel = new JPanel();
@@ -161,7 +158,8 @@ public class Registration {
     }
 
     // Set visiblity of registration window
-    void setVisible(boolean visible) {
+    @Override
+    public void setVisible(boolean visible) {
         registrationFrame.setVisible(visible);
     }
 
