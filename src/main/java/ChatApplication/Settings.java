@@ -184,7 +184,7 @@ public class Settings extends JFrame {
         public void setVisible(boolean visible) {
             settingsFrame.setVisible(visible);
         }
-
+        // Main for testing
         public static void main(String[] args) {
             java.awt.EventQueue.invokeLater(() -> {
                 Settings settings = new Settings();
