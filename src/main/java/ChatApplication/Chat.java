@@ -216,7 +216,7 @@ public class Chat extends JFrame {
             var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, chatChannel.listChannels().toArray(), "Yleinen");
             if (selected != null) {//null if the user cancels. 
                 // Set channel text to chosen channel
-                String selectedString = selected.toString();
+                String selectedString = selected.toString().substring(0, 1).toUpperCase() + selected.toString().substring(1);;
                 channelLabel.setText("# " + selectedString);
                 // Repaint frame to not mess up gradient
                 this.chatFrame.repaint();
@@ -230,8 +230,6 @@ public class Chat extends JFrame {
                 chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
                     model.addElement(msg);
                 });
-            } else {
-                System.out.println("User cancelled");
             }
         });
 
@@ -246,12 +244,17 @@ public class Chat extends JFrame {
             if (selected != null) {
                 // Add new channel to channels if it doesn't yet exist
                 String channelString = selected.toString();
+                
+                // Capitalize first letter
+                String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
                 ArrayList<String> channels = chatChannel.listChannels();
-                if (!channels.stream().anyMatch(channelString::equalsIgnoreCase)) {
-                    chatChannel.addChannel(channelString);
+                
+                // If channel doesn't exist yet, add a new channel
+                if (!channels.stream().anyMatch(capitalizedChannel::equalsIgnoreCase)) {
+                    chatChannel.addChannel(capitalizedChannel);
                     // Set new channel to current channel
-                    currentChannel = channelString;
-                    channelLabel.setText("# " + channelString);
+                    currentChannel = capitalizedChannel;
+                    channelLabel.setText("# " + capitalizedChannel);
                     this.chatFrame.repaint();
 
                     // Clear chat area
@@ -261,12 +264,18 @@ public class Chat extends JFrame {
                         model.addElement(msg);
                     });
                 } else {
-                    var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + channelString + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    // Get channel name from channels list to make sure that capitalization is the same
+                    for (int i = 0; i < channels.size(); i++) {
+                        if (channels.get(i).equalsIgnoreCase(capitalizedChannel)) {
+                            capitalizedChannel = channels.get(i);
+                        }
+                    }
+                    var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + capitalizedChannel + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
                     // If user chooses to switch channel, set current channel to new channel
                     if (selection == JOptionPane.YES_OPTION) {
-                        chatChannel.setCurrentChannel(channelString);
-                        currentChannel = channelString;
-                        channelLabel.setText("# " + channelString);
+                        chatChannel.setCurrentChannel(capitalizedChannel);
+                        currentChannel = capitalizedChannel;
+                        channelLabel.setText("# " + capitalizedChannel);
                         // Repaint frame to not mess up gradient
                         this.chatFrame.repaint();
                         // Clear chat area
