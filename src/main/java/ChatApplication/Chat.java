@@ -29,18 +29,15 @@ public class Chat extends JFrame {
 
     private final JFrame chatFrame = new JFrame("Chat");
     //private final JPanel chatPanel = new JPanel();
-    ArrayList<String> channels;
-    ArrayList<ChatMessage> messages;
-    String currentChannel = "Yleinen";
+    /*ArrayList<String> channels;
+    ArrayList<ChatMessage> messages;*/
+    ChatChannel chatChannel = new ChatChannel();
+    String currentChannel;
 
     public Chat() {
+        currentChannel = chatChannel.getCurrentChannel();
         initComponents();
         centeredFrame(chatFrame);
-
-        channels = new ArrayList<>();
-        channels.add("Yleinen");
-        channels.add("Jalkapallo");
-        channels.add("Jääkiekko");
     }
 
     // Center window
@@ -55,12 +52,14 @@ public class Chat extends JFrame {
         // Get an instance of authentication class
         Authentication authentication = Authentication.getInstance();
 
+        // Add default channels and description message to each channel
+        chatChannel.addDefaultChannels();
+
         // Initialize messages and add some example messages
-        this.messages = new ArrayList<>();
+        /*this.messages = new ArrayList<>();
         messages.add(new ChatMessage("First message", "22:20:00"));
         messages.add(new ChatMessage("Second message", "22:20:10"));
-        messages.add(new ChatMessage("Third message", "22:20:30"));
-
+        messages.add(new ChatMessage("Third message", "22:20:30"));*/
         chatFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chatFrame.setSize(1350, 950);
         chatFrame.setResizable(false);
@@ -104,14 +103,15 @@ public class Chat extends JFrame {
         // Create JList to show chat messages
         DefaultListModel<ChatMessage> model = new DefaultListModel<>();
 
-        for (ChatMessage msg : messages) {
+        // Get messages from current channel and append them to chat area
+        chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
             model.addElement(msg);
-        }
+        });
+
         JList<ChatMessage> chatArea = new JList<>(model);
         JScrollPane scrollPane = new JScrollPane(chatArea);
 
         chatArea.setBackground(new java.awt.Color(106, 111, 117));
-        chatArea.setForeground(Color.WHITE);
         chatArea.setCellRenderer(new CellRenderer());
         chatArea.setFixedCellHeight(60);
 
@@ -212,15 +212,24 @@ public class Chat extends JFrame {
         chatPanel.add(logoutButton);
 
         // Set funcionality to buttons
-        
         chooseChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, channels.toArray(), "Yleinen");
+            var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, chatChannel.listChannels().toArray(), "Yleinen");
             if (selected != null) {//null if the user cancels. 
                 // Set channel text to chosen channel
                 String selectedString = selected.toString();
                 channelLabel.setText("# " + selectedString);
                 // Repaint frame to not mess up gradient
                 this.chatFrame.repaint();
+
+                chatChannel.setCurrentChannel(selectedString);
+                currentChannel = selectedString;
+
+                // Clear chat area
+                model.removeAllElements();
+                // Get messages from current channel and append them to chat area
+                chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
+                    model.addElement(msg);
+                });
             } else {
                 System.out.println("User cancelled");
             }
@@ -237,18 +246,35 @@ public class Chat extends JFrame {
             if (selected != null) {
                 // Add new channel to channels if it doesn't yet exist
                 String channelString = selected.toString();
+                ArrayList<String> channels = chatChannel.listChannels();
                 if (!channels.stream().anyMatch(channelString::equalsIgnoreCase)) {
-                    channels.add(channelString);
+                    chatChannel.addChannel(channelString);
                     // Set new channel to current channel
                     currentChannel = channelString;
                     channelLabel.setText("# " + channelString);
                     this.chatFrame.repaint();
+
+                    // Clear chat area
+                    model.removeAllElements();
+                    // Get messages from current channel and append them to chat area
+                    chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
+                        model.addElement(msg);
+                    });
                 } else {
                     var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + channelString + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    // If user chooses to switch channel, set current channel to new channel
                     if (selection == JOptionPane.YES_OPTION) {
+                        chatChannel.setCurrentChannel(channelString);
                         currentChannel = channelString;
                         channelLabel.setText("# " + channelString);
+                        // Repaint frame to not mess up gradient
                         this.chatFrame.repaint();
+                        // Clear chat area
+                        model.removeAllElements();
+                        // Get messages from current channel and append them to chat area
+                        chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
+                            model.addElement(msg);
+                        });
                     }
                 }
             }
@@ -272,7 +298,7 @@ public class Chat extends JFrame {
             // Don't send a new message if message is empty
             if (!message.isEmpty()) {
                 model.addElement(msg);
-                messages.add(msg);
+                chatChannel.addMessageToChannel(currentChannel, msg);
                 messageField.setText("");
             }
         });
@@ -295,7 +321,7 @@ public class Chat extends JFrame {
 
                         ChatMessage msg = new ChatMessage(message, timestamp);
                         model.addElement(msg);
-                        messages.add(msg);
+                        chatChannel.addMessageToChannel(currentChannel, msg);
                         messageField.setText("");
                     }
                 }
