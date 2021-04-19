@@ -269,8 +269,11 @@ public class Chat extends JFrame {
             String timestamp = time.format(formatter);
 
             ChatMessage msg = new ChatMessage(message, timestamp);
-            model.addElement(msg);
-            messageField.setText("");
+            // Don't send a new message if message is empty
+            if (!message.isEmpty()) {
+                model.addElement(msg);
+                messageField.setText("");
+            }
         });
 
         messageField.addKeyListener(new java.awt.event.KeyListener() {
@@ -282,7 +285,8 @@ public class Chat extends JFrame {
             public void keyPressed(KeyEvent e) {
                 // If user presses enter and messagefield has focus, send new message
                 if (e.getKeyChar() == KeyEvent.VK_ENTER) {
-                    if (messageField.hasFocus()) {
+                    // Check if message field has focus and message is not empty
+                    if (messageField.hasFocus() && !messageField.getText().isEmpty()) {
                         String message = messageField.getText();
                         LocalDateTime time = LocalDateTime.now();
                         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
