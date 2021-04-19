@@ -35,6 +35,7 @@ public class Registration extends JFrame {
 
         registrationFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         registrationFrame.setSize(1000, 800);
+        registrationFrame.setResizable(false);
 
         registrationFrame.add(registrationPanel);
         registrationPanel.setLayout(null);
@@ -129,13 +130,14 @@ public class Registration extends JFrame {
             if (password.isEmpty() || user.isEmpty() || email.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Täytä kaikki tiedot", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
             } else if (!password.equals(password2)) {
-                /*passwordCheck.setVisible(true);
+                passwordCheck.setVisible(true);
                 passwordField.setBackground(new java.awt.Color(251, 93, 93));
-                passwordField2.setBackground(new java.awt.Color(251, 93, 93));*/
+                passwordField2.setBackground(new java.awt.Color(251, 93, 93));
                 JOptionPane.showMessageDialog(null, "Salasanat eivät täsmää", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
             } else {
                 if (!authentication.addUser(user, password, email, nickname)) {
                     JOptionPane.showMessageDialog(null, "Käyttäjänimi on jo rekisteröity", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
+                    usernameField.setBackground(new java.awt.Color(251, 93, 93));
                 } else {
                     JOptionPane.showMessageDialog(null, "Rekisteröityminen onnistui", "Rekisteröityminen", JOptionPane.INFORMATION_MESSAGE);
                     registrationFrame.setVisible(false);
@@ -160,4 +162,6 @@ public class Registration extends JFrame {
     public void setVisible(boolean visible) {
         registrationFrame.setVisible(visible);
     }
+
+
 }
