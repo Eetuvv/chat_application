@@ -8,12 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -36,7 +36,7 @@ public class Chat extends JFrame {
     public Chat() {
         initComponents();
         centeredFrame(chatFrame);
-        
+
         channels = new ArrayList<>();
         channels.add("Yleinen");
         channels.add("Jalkapallo");
@@ -54,7 +54,7 @@ public class Chat extends JFrame {
     private void initComponents() {
         // Get an instance of authentication class
         Authentication authentication = Authentication.getInstance();
-        
+
         // Initialize messages and add some example messages
         this.messages = new ArrayList<>();
         messages.add(new ChatMessage("First message", "22:20:00"));
@@ -103,7 +103,7 @@ public class Chat extends JFrame {
 
         // Create JList to show chat messages
         DefaultListModel<ChatMessage> model = new DefaultListModel<>();
-        
+
         for (ChatMessage msg : messages) {
             model.addElement(msg);
         }
@@ -160,7 +160,6 @@ public class Chat extends JFrame {
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
         nicknameText.setForeground(textColor);
         nicknameText.setBounds(52, 700, 225, 175);*/
-        
         JLabel nicknameText = new JLabel("Nickname nickname");
         nicknameText.setFocusable(false);
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
@@ -213,6 +212,7 @@ public class Chat extends JFrame {
         chatPanel.add(logoutButton);
 
         // Set funcionality to buttons
+        
         chooseChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, channels.toArray(), "Yleinen");
             if (selected != null) {//null if the user cancels. 
@@ -232,7 +232,7 @@ public class Chat extends JFrame {
             UIManager.put("OptionPane.yesButtonText", "Siirry");
             UIManager.put("OptionPane.noButtonText", "Peruuta");
 
-            var selected = JOptionPane.showInputDialog(null, "Syötä kanavan nimi", "Kanava-asetukset", JOptionPane.PLAIN_MESSAGE, null, null, null);
+            var selected = JOptionPane.showInputDialog(null, "Syötä kanavan nimi", "Luo uusi kanava", JOptionPane.PLAIN_MESSAGE, null, null, null);
 
             if (selected != null) {
                 // Add new channel to channels if it doesn't yet exist
@@ -269,8 +269,41 @@ public class Chat extends JFrame {
             String timestamp = time.format(formatter);
 
             ChatMessage msg = new ChatMessage(message, timestamp);
-            model.addElement(msg);
-            messageField.setText("");
+            // Don't send a new message if message is empty
+            if (!message.isEmpty()) {
+                model.addElement(msg);
+                messages.add(msg);
+                messageField.setText("");
+            }
+        });
+
+        messageField.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // If user presses enter and messagefield has focus, send new message
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    // Check if message field has focus and message is not empty
+                    if (messageField.hasFocus() && !messageField.getText().isEmpty()) {
+                        String message = messageField.getText();
+                        LocalDateTime time = LocalDateTime.now();
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                        String timestamp = time.format(formatter);
+
+                        ChatMessage msg = new ChatMessage(message, timestamp);
+                        model.addElement(msg);
+                        messages.add(msg);
+                        messageField.setText("");
+                    }
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+            }
         });
 
         // Set hover actions to buttons
