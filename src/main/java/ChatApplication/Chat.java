@@ -272,6 +272,7 @@ public class Chat extends JFrame {
             // Don't send a new message if message is empty
             if (!message.isEmpty()) {
                 model.addElement(msg);
+                messages.add(msg);
                 messageField.setText("");
             }
         });
@@ -294,6 +295,7 @@ public class Chat extends JFrame {
 
                         ChatMessage msg = new ChatMessage(message, timestamp);
                         model.addElement(msg);
+                        messages.add(msg);
                         messageField.setText("");
                     }
                 }
