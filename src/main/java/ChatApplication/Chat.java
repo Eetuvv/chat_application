@@ -2,18 +2,25 @@ package ChatApplication;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
@@ -22,10 +29,18 @@ public class Chat extends JFrame {
 
     private final JFrame chatFrame = new JFrame("Chat");
     //private final JPanel chatPanel = new JPanel();
+    ArrayList<String> channels;
+    ArrayList<ChatMessage> messages;
+    String currentChannel = "Yleinen";
 
     public Chat() {
         initComponents();
         centeredFrame(chatFrame);
+        
+        channels = new ArrayList<>();
+        channels.add("Yleinen");
+        channels.add("Jalkapallo");
+        channels.add("Jääkiekko");
     }
 
     // Center window
@@ -39,9 +54,15 @@ public class Chat extends JFrame {
     private void initComponents() {
         // Get an instance of authentication class
         Authentication authentication = Authentication.getInstance();
+        
+        // Initialize messages and add some example messages
+        this.messages = new ArrayList<>();
+        messages.add(new ChatMessage("First message", "22:20:00"));
+        messages.add(new ChatMessage("Second message", "22:20:10"));
+        messages.add(new ChatMessage("Third message", "22:20:30"));
 
         chatFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        chatFrame.setSize(1350, 1100);
+        chatFrame.setSize(1350, 950);
         chatFrame.setResizable(false);
         chatFrame.setBackground(new java.awt.Color(60, 63, 65));
 
@@ -73,29 +94,39 @@ public class Chat extends JFrame {
 
         Color textColor = new java.awt.Color(187, 187, 187);
         Color buttonColor = new java.awt.Color(60, 60, 60);
-        
+
         // Create all components for chat window
-        JLabel channelLabel = new JLabel("Kanava");
+        JLabel channelLabel = new JLabel("# " + currentChannel);
         channelLabel.setFont(new java.awt.Font("Dialog", 1, 34));
-        channelLabel.setBounds(78, 30, 225, 50);
+        channelLabel.setBounds(72, 30, 225, 50);
         channelLabel.setForeground(textColor);
 
-        JTextArea chatArea = new RoundedTextArea();
-        chatArea.setBounds(300, 2, 1034, 960);
-        chatArea.setBackground(new java.awt.Color(106, 111, 117));
-        chatArea.setWrapStyleWord(true);
-        chatArea.setLineWrap(true);
-        chatArea.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        // Create JList to show chat messages
+        DefaultListModel<ChatMessage> model = new DefaultListModel<>();
+        
+        for (ChatMessage msg : messages) {
+            model.addElement(msg);
+        }
+        JList<ChatMessage> chatArea = new JList<>(model);
+        JScrollPane scrollPane = new JScrollPane(chatArea);
 
-        JTextField messageField = new RoundedTextField(15);
-        messageField.setBounds(300, 970, 872, 80);
-        messageField.setFont(new java.awt.Font("Segoe UI", 1, 14));
+        chatArea.setBackground(new java.awt.Color(106, 111, 117));
+        chatArea.setForeground(Color.WHITE);
+        chatArea.setCellRenderer(new CellRenderer());
+        chatArea.setFixedCellHeight(60);
+
+        scrollPane.setBounds(300, 2, 1035, 866);
+
+        JTextField messageField = new RoundedTextField(5);
+        messageField.setBounds(300, 869, 932, 40);
+        messageField.setFont(new java.awt.Font("Whitney", 1, 17));
 
         JButton sendMessageButton = new JButton("Lähetä");
-        sendMessageButton.setBounds(1172, 970, 160, 80);
+        sendMessageButton.setBounds(1232, 869, 102, 40);
         sendMessageButton.setBackground(new java.awt.Color(62, 62, 68));
         sendMessageButton.setForeground(textColor);
-        sendMessageButton.setBorder(new RoundedBorder(12));
+        sendMessageButton.setBorder(new RoundedBorder(5));
+        sendMessageButton.setFocusable(false);
 
         JButton chooseChannelButton = new JButton("Vaihda kanava");
         chooseChannelButton.setBounds(45, 125, 200, 65);
@@ -114,31 +145,51 @@ public class Chat extends JFrame {
         createChannelButton.setBorder(new RoundedBorder(15));
         createChannelButton.setToolTipText("Luo uusi kanava haluamallesi aiheelle");
 
-        JButton openSettingsButton = new JButton("Asetukset");
-        openSettingsButton.setBounds(55, 915, 175, 50);
-        openSettingsButton.setBackground(buttonColor);
-        openSettingsButton.setForeground(textColor);
-        openSettingsButton.setBorder(new RoundedBorder(15));
-        openSettingsButton.setToolTipText("Avaa asetukset-valikko");
-
         JSeparator separator = new JSeparator();
-        separator.setBounds(0, 810, 300, 1);
+        separator.setBounds(0, 775, 300, 1);
         separator.setForeground(new java.awt.Color(45, 45, 45));
 
         // Text area for nickname to wrap text if name is very long
-        JTextArea nicknameText = new JTextArea();
-        nicknameText.setText("Nickname nickname");
+        /*JTextArea nicknameText = new JTextArea();
+
         nicknameText.setWrapStyleWord(true);
         nicknameText.setLineWrap(true);
         nicknameText.setOpaque(false);
         nicknameText.setEditable(false);
         nicknameText.setFocusable(false);
-        nicknameText.setFont(new java.awt.Font("Segoe UI", 1, 22));
+        nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
         nicknameText.setForeground(textColor);
-        nicknameText.setBounds(85, 830, 200, 150);
+        nicknameText.setBounds(52, 700, 225, 175);*/
+        
+        JLabel nicknameText = new JLabel("Nickname nickname");
+        nicknameText.setFocusable(false);
+        nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
+        nicknameText.setForeground(textColor);
+        nicknameText.setBounds(52, 650, 225, 175);
+        // Set text placement based on text length
+        if (!authentication.getLoggedUser().isEmpty()) {
+            if (authentication.getLoggedUser().length() < 10) {
+                nicknameText.setBounds(125, 650, 225, 175);
+            } else if (authentication.getLoggedUser().length() > 10
+                    && authentication.getLoggedUser().length() <= 15) {
+                nicknameText.setBounds(78, 650, 225, 175);
+            } else if (authentication.getLoggedUser().length() > 15
+                    && authentication.getLoggedUser().length() < 20) {
+                nicknameText.setBounds(65, 650, 225, 175);
+            }
+            nicknameText.setText(authentication.getLoggedUser());
+        }
+
+        JButton openSettingsButton = new JButton("Asetukset");
+        openSettingsButton.setBounds(55, 775, 180, 55);
+        openSettingsButton.setBackground(buttonColor);
+        openSettingsButton.setForeground(textColor);
+        openSettingsButton.setBorder(new RoundedBorder(15));
+        openSettingsButton.setToolTipText("Avaa asetukset-valikko");
+        openSettingsButton.setFocusable(false);
 
         JButton logoutButton = new JButton("Kirjaudu ulos");
-        logoutButton.setBounds(55, 995, 175, 50);
+        logoutButton.setBounds(55, 845, 180, 55);
         logoutButton.setBackground(new java.awt.Color(158, 63, 65));
         logoutButton.setForeground(textColor);
         logoutButton.setBorder(new RoundedBorder(15));
@@ -148,7 +199,9 @@ public class Chat extends JFrame {
         UIManager.put("ToolTip.background", Color.white);
         UIManager.put("ToolTip.border", new LineBorder(Color.BLACK, 1));
 
-        chatPanel.add(chatArea);
+        // Add components to JPanel
+        //chatPanel.add(chatArea);
+        chatPanel.add(scrollPane);
         chatPanel.add(messageField);
         chatPanel.add(sendMessageButton);
         chatPanel.add(channelLabel);
@@ -161,34 +214,44 @@ public class Chat extends JFrame {
 
         // Set funcionality to buttons
         chooseChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            String[] channels = {"Yleinen", "Jalkapallo", "Jääkiekko", "Jääpallo", "Tennis", "Hiihto"};
-
-            var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Selection", JOptionPane.DEFAULT_OPTION, null, channels, "Yleinen");
+            var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, channels.toArray(), "Yleinen");
             if (selected != null) {//null if the user cancels. 
                 // Set channel text to chosen channel
                 String selectedString = selected.toString();
-                channelLabel.setText(selectedString);
+                channelLabel.setText("# " + selectedString);
                 // Repaint frame to not mess up gradient
                 this.chatFrame.repaint();
             } else {
                 System.out.println("User cancelled");
             }
-
-            /*final JPanel panel = new JPanel();
-            final JLabel label = new JLabel("Valitse kanava");
-            final JRadioButton button1 = new JRadioButton("Yleinen");
-            final JRadioButton button2 = new JRadioButton("Jääkiekk");
-
-            panel.add (label);
-            panel.add(button1);
-            panel.add(button2);
-
-            JOptionPane.showMessageDialog(null, panel);*/
         });
-        
+
         createChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            String name1 = JOptionPane.showInputDialog(chatFrame,
-                    "Syötä uuden kanvan nimi", null);
+            UIManager.put("OptionPane.cancelButtonText", "Peruuta");
+            UIManager.put("OptionPane.okButtonText", "Valmis");
+            UIManager.put("OptionPane.yesButtonText", "Siirry");
+            UIManager.put("OptionPane.noButtonText", "Peruuta");
+
+            var selected = JOptionPane.showInputDialog(null, "Syötä kanavan nimi", "Kanava-asetukset", JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+            if (selected != null) {
+                // Add new channel to channels if it doesn't yet exist
+                String channelString = selected.toString();
+                if (!channels.stream().anyMatch(channelString::equalsIgnoreCase)) {
+                    channels.add(channelString);
+                    // Set new channel to current channel
+                    currentChannel = channelString;
+                    channelLabel.setText("# " + channelString);
+                    this.chatFrame.repaint();
+                } else {
+                    var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + channelString + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                    if (selection == JOptionPane.YES_OPTION) {
+                        currentChannel = channelString;
+                        channelLabel.setText("# " + channelString);
+                        this.chatFrame.repaint();
+                    }
+                }
+            }
         });
 
         logoutButton.addActionListener((java.awt.event.ActionEvent evt) -> {
@@ -197,6 +260,17 @@ public class Chat extends JFrame {
             login.setVisible(true);
             // Set logged user to empty string when user logs out
             authentication.setLoggedUser("");
+        });
+
+        sendMessageButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            String message = messageField.getText();
+            LocalDateTime time = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+            String timestamp = time.format(formatter);
+
+            ChatMessage msg = new ChatMessage(message, timestamp);
+            model.addElement(msg);
+            messageField.setText("");
         });
 
         // Set hover actions to buttons
