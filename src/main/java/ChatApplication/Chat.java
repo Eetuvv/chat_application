@@ -97,7 +97,7 @@ public class Chat extends JFrame {
         // Create all components for chat window
         JLabel channelLabel = new JLabel("# " + currentChannel);
         channelLabel.setFont(new java.awt.Font("Dialog", 1, 34));
-        channelLabel.setBounds(72, 30, 225, 50);
+        channelLabel.setBounds(72, 30, 275, 50);
         channelLabel.setForeground(textColor);
 
         // Create JList to show chat messages
@@ -113,7 +113,7 @@ public class Chat extends JFrame {
 
         chatArea.setBackground(new java.awt.Color(106, 111, 117));
         chatArea.setCellRenderer(new CellRenderer());
-        chatArea.setFixedCellHeight(60);
+        chatArea.setFixedCellHeight(85);
 
         scrollPane.setBounds(300, 2, 1035, 866);
 
@@ -168,7 +168,7 @@ public class Chat extends JFrame {
         // Set text placement based on text length
         if (!authentication.getLoggedUser().isEmpty()) {
             if (authentication.getLoggedUser().length() < 10) {
-                nicknameText.setBounds(125, 650, 225, 175);
+                nicknameText.setBounds(122, 650, 225, 175);
             } else if (authentication.getLoggedUser().length() > 10
                     && authentication.getLoggedUser().length() <= 15) {
                 nicknameText.setBounds(78, 650, 225, 175);
@@ -244,11 +244,11 @@ public class Chat extends JFrame {
             if (selected != null) {
                 // Add new channel to channels if it doesn't yet exist
                 String channelString = selected.toString();
-                
+
                 // Capitalize first letter
                 String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
                 ArrayList<String> channels = chatChannel.listChannels();
-                
+
                 // If channel doesn't exist yet, add a new channel
                 if (!channels.stream().anyMatch(capitalizedChannel::equalsIgnoreCase)) {
                     chatChannel.addChannel(capitalizedChannel);
