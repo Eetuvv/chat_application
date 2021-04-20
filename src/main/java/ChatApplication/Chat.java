@@ -8,12 +8,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -27,7 +29,7 @@ import javax.swing.border.LineBorder;
 
 public class Chat extends JFrame {
 
-    private final JFrame chatFrame = new JFrame("Chat");
+    public final JFrame chatFrame = new JFrame("Chat");
     //private final JPanel chatPanel = new JPanel();
     /*ArrayList<String> channels;
     ArrayList<ChatMessage> messages;*/
@@ -310,6 +312,13 @@ public class Chat extends JFrame {
                 chatChannel.addMessageToChannel(currentChannel, msg);
                 messageField.setText("");
             }
+        });
+
+        openSettingsButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            Settings settings = new Settings();
+            settings.setVisible(true);
+            // Set logged user to empty string when user logs out
+            authentication.setLoggedUser("");
         });
 
         messageField.addKeyListener(new java.awt.event.KeyListener() {

@@ -57,6 +57,8 @@ public class Login extends JFrame {
 
         JTextField usernameField = new JTextField();
         usernameField.setBounds(350, 220, 300, 45);
+        usernameField.setToolTipText("Syötä käyttäjänimesi tähän");
+        usernameField.setFont(new java.awt.Font("Segoe UI", 1, 18));
 
         JLabel passwordLabel = new JLabel("Salasana");
         passwordLabel.setBounds(350, 265, 100, 25);
@@ -65,6 +67,8 @@ public class Login extends JFrame {
 
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(350, 290, 300, 45);
+        passwordField.setToolTipText("Syötä salasanasi tähän");
+        passwordField.setFont(new java.awt.Font("Segoe UI", 1, 18));
 
         JCheckBox passwordCheckBox = new JCheckBox("Näytä salasana");
         passwordCheckBox.setBounds(350, 340, 150, 20);
@@ -116,8 +120,6 @@ public class Login extends JFrame {
                     JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 }
             }
-            // Focus to username field
-            usernameField.requestFocus();
         });
 
         // Set register button functionality

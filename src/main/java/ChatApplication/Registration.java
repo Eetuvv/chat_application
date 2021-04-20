@@ -55,7 +55,8 @@ public class Registration extends JFrame {
 
         JTextField usernameField = new JTextField();
         usernameField.setBounds(350, 220, 300, 45);
-        usernameField.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        usernameField.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        usernameField.setToolTipText("Syötä käyttäjänimesi tähän");
 
         JLabel passwordLabel = new JLabel("Salasana");
         passwordLabel.setBounds(350, 270, 100, 25);
@@ -64,7 +65,8 @@ public class Registration extends JFrame {
 
         JPasswordField passwordField = new JPasswordField();
         passwordField.setBounds(350, 295, 300, 45);
-        passwordField.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        passwordField.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        passwordField.setToolTipText("Syötä haluamasi salasana tähän");
 
         JLabel passwordLabel2 = new JLabel("Salasana uudelleen");
         passwordLabel2.setBounds(350, 340, 150, 25);
@@ -73,7 +75,8 @@ public class Registration extends JFrame {
 
         JPasswordField passwordField2 = new JPasswordField();
         passwordField2.setBounds(350, 370, 300, 45);
-        passwordField2.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        passwordField2.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        passwordField2.setToolTipText("Syötä yllä kirjoittamasi salasana uudelleen");
 
         JLabel passwordCheck = new JLabel("Salasanat eivät täsmää");
         passwordCheck.setBounds(660, 345, 175, 25);
@@ -88,7 +91,8 @@ public class Registration extends JFrame {
 
         JTextField emailField = new JTextField();
         emailField.setBounds(350, 450, 300, 45);
-        emailField.setFont(new java.awt.Font("Segoe UI", 1, 16));
+        emailField.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        emailField.setToolTipText("Syötä toimiva sähköpostiosoite");
 
         JButton registerButton = new JButton();
         registerButton.setBackground(new java.awt.Color(79, 119, 240));
@@ -145,8 +149,6 @@ public class Registration extends JFrame {
                     login.setVisible(true);
                 }
             }
-            // Focus to username field
-            usernameField.requestFocus();
         });
 
         // Add functionality to login button
