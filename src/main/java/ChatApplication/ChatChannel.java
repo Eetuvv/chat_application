@@ -33,13 +33,13 @@ public class ChatChannel {
 
         this.channels.put("Jääpallo", new ChatChannel());
         addMessageToChannel("Jääpallo", new ChatMessage("Täällä keskustellaan jääpallosta.", "00:00:00"));
-        
+
         this.channels.put("Yleisurheilu", new ChatChannel());
         addMessageToChannel("Yleisurheilu", new ChatMessage("Täällä keskustellaan yleisurheilusta.", "00:00:00"));
-        
+
         this.channels.put("Salibandy", new ChatChannel());
         addMessageToChannel("Salibandy", new ChatMessage("Täällä keskustellaan salibandysta.", "00:00:00"));
-        
+
         this.channels.put("Koripallo", new ChatChannel());
         addMessageToChannel("Koripallo", new ChatMessage("Täällä keskustellaan koripallosta.", "00:00:00"));
     }

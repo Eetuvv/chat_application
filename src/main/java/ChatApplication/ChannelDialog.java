@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ListCellRenderer;
 
 public class ChannelDialog {
 
@@ -23,6 +24,33 @@ public class ChannelDialog {
     public ChannelDialog(String title, String message, JList listToDisplay) {
         this(message, listToDisplay);
         dialog.setTitle(title);
+    }
+
+    // Nested class for rendering channe list cells
+    class ChannelListRenderer extends JLabel implements ListCellRenderer<Object> {
+
+        public ChannelListRenderer() {
+            setOpaque(true);
+        }
+
+        @Override
+        public Component getListCellRendererComponent(JList<? extends Object> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+            setText(value.toString());
+            setFont(new java.awt.Font("Minion", 1, 13));
+
+            // Set every other cell different shade
+            if (index % 2 == 0) {
+                setBackground(new java.awt.Color(255, 255, 255));
+            } else {
+                setBackground(new java.awt.Color(250, 250, 250));
+            }
+
+            // Set shade of cell lighter when cell is clicked
+            if (isSelected) {
+                setBackground(new java.awt.Color(210, 210, 210));
+            }
+            return this;
+        }
     }
 
     private void createAndDisplayOptionPane() {
@@ -48,8 +76,9 @@ public class ChannelDialog {
         JPanel panel = new JPanel(new BorderLayout(2, 5));
         label.setFont(new java.awt.Font("Dialog", 1, 16));
         panel.add(label, BorderLayout.NORTH);
-        list.setFont(new java.awt.Font("Minion", 1, 13));
+
         list.setFixedCellHeight(25);
+        list.setCellRenderer(new ChannelListRenderer());
         ScrollPane scrollPane = new ScrollPane();
         scrollPane.add(list);
 
