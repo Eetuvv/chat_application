@@ -18,30 +18,30 @@ public class ChatChannel {
     public void addDefaultChannels() {
         // Add some example channels with different sports
         this.channels.put("Yleinen", new ChatChannel());
-        addMessageToChannel("Yleinen", new ChatMessage("Täällä on yleistä keskustelua.", "00:00:00"));
+        addMessageToChannel("Yleinen", new ChatMessage("Täällä on yleistä keskustelua.", "01.01.2021 00:00:00"));
         this.channels.put("Jalkapallo", new ChatChannel());
-        addMessageToChannel("Jalkapallo", new ChatMessage("Täällä keskustellaan jalkapallosta.", "00:00:00"));
+        addMessageToChannel("Jalkapallo", new ChatMessage("Täällä keskustellaan jalkapallosta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Jääkiekko", new ChatChannel());
-        addMessageToChannel("Jääkiekko", new ChatMessage("Täällä keskustellaan jääkiekosta.", "00:00:00"));
+        addMessageToChannel("Jääkiekko", new ChatMessage("Täällä keskustellaan jääkiekosta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Tennis", new ChatChannel());
-        addMessageToChannel("Tennis", new ChatMessage("Täällä keskustellaan tenniksestä.", "00:00:00"));
+        addMessageToChannel("Tennis", new ChatMessage("Täällä keskustellaan tenniksestä.", "01.01.2021 00:00:00"));
 
         this.channels.put("Hiihto", new ChatChannel());
-        addMessageToChannel("Hiihto", new ChatMessage("Täällä keskustellaan hiihdosta.", "00:00:00"));
+        addMessageToChannel("Hiihto", new ChatMessage("Täällä keskustellaan hiihdosta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Jääpallo", new ChatChannel());
-        addMessageToChannel("Jääpallo", new ChatMessage("Täällä keskustellaan jääpallosta.", "00:00:00"));
+        addMessageToChannel("Jääpallo", new ChatMessage("Täällä keskustellaan jääpallosta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Yleisurheilu", new ChatChannel());
-        addMessageToChannel("Yleisurheilu", new ChatMessage("Täällä keskustellaan yleisurheilusta.", "00:00:00"));
+        addMessageToChannel("Yleisurheilu", new ChatMessage("Täällä keskustellaan yleisurheilusta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Salibandy", new ChatChannel());
-        addMessageToChannel("Salibandy", new ChatMessage("Täällä keskustellaan salibandysta.", "00:00:00"));
+        addMessageToChannel("Salibandy", new ChatMessage("Täällä keskustellaan salibandysta.", "01.01.2021 00:00:00"));
 
         this.channels.put("Koripallo", new ChatChannel());
-        addMessageToChannel("Koripallo", new ChatMessage("Täällä keskustellaan koripallosta.", "00:00:00"));
+        addMessageToChannel("Koripallo", new ChatMessage("Täällä keskustellaan koripallosta.", "01.01.2021 00:00:00"));
     }
 
     public void addChannel(String channel) {
