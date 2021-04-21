@@ -79,7 +79,7 @@ public class ChannelDialog {
         JPanel panel = new JPanel(new BorderLayout(2, 5));
         label.setFont(new java.awt.Font("Dialog", 1, 16));
         panel.add(label, BorderLayout.NORTH);
-
+        
         list.setFixedCellHeight(25);
         list.setCellRenderer(new ChannelListRenderer());
         ScrollPane scrollPane = new ScrollPane();

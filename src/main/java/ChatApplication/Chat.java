@@ -192,7 +192,7 @@ public class Chat extends JFrame {
         // Set icon to settings button
         openSettingsButton.setIcon(new javax.swing.ImageIcon("icons/settings_icon.png"));
         openSettingsButton.setHorizontalAlignment(SwingConstants.LEFT);
-        openSettingsButton.setIconTextGap(15);
+        openSettingsButton.setIconTextGap(20);
         
         JButton logoutButton = new JButton("Kirjaudu ulos");
         logoutButton.setBounds(55, 845, 180, 55);
@@ -200,6 +200,9 @@ public class Chat extends JFrame {
         logoutButton.setForeground(textColor);
         logoutButton.setBorder(new RoundedButton(15));
         logoutButton.setToolTipText("Kirjaudu ulos ja palaa kirjautumisnäkymään");
+        logoutButton.setIcon(new javax.swing.ImageIcon("icons/log_out_icon.png"));
+        logoutButton.setHorizontalAlignment(SwingConstants.LEFT);
+        logoutButton.setIconTextGap(20);
 
         // Set tooltip text color and background
         UIManager.put("ToolTip.background", Color.white);
