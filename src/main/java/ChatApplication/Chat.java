@@ -138,6 +138,7 @@ public class Chat extends JFrame {
         chooseChannelButton.setForeground(textColor);
         chooseChannelButton.setBorder(new RoundedButton(15));
         chooseChannelButton.setToolTipText("Vaihda chat-kanava");
+        chooseChannelButton.setFocusPainted(false);
         // Set icon to button
         chooseChannelButton.setIcon(new javax.swing.ImageIcon("icons/swap_channel_icon.png"));
         
@@ -151,6 +152,7 @@ public class Chat extends JFrame {
         createChannelButton.setForeground(textColor);
         createChannelButton.setBorder(new RoundedButton(15));
         createChannelButton.setToolTipText("Luo uusi kanava haluamallesi aiheelle");
+        createChannelButton.setFocusPainted(false);
         
         createChannelButton.setIcon(new javax.swing.ImageIcon("icons/plus_icon.png"));
         createChannelButton.setHorizontalAlignment(SwingConstants.LEFT);
@@ -186,7 +188,7 @@ public class Chat extends JFrame {
         openSettingsButton.setForeground(textColor);
         openSettingsButton.setBorder(new RoundedButton(15));
         openSettingsButton.setToolTipText("Avaa asetukset-valikko");
-        openSettingsButton.setFocusable(false);
+        openSettingsButton.setFocusPainted(false);
         // Set icon to settings button
         openSettingsButton.setIcon(new javax.swing.ImageIcon("icons/settings_icon.png"));
         openSettingsButton.setHorizontalAlignment(SwingConstants.LEFT);
