@@ -8,7 +8,7 @@ import java.awt.Window;
 
 public class Settings extends JFrame {
 
-    private JFrame settingsFrame = new JFrame("Settings");
+    private JFrame settingsFrame = new JFrame("Asetukset");
     private JPanel settingsPanel = new JPanel();
 
     public Settings() {

@@ -13,7 +13,7 @@ import javax.swing.JTextField;
 
 public class Registration extends JFrame {
 
-    private final JFrame registrationFrame = new JFrame("Registration");
+    private final JFrame registrationFrame = new JFrame("Rekisteröityminen");
     private final JPanel registrationPanel = new JPanel();
 
     public Registration() {
@@ -144,7 +144,8 @@ public class Registration extends JFrame {
                     usernameField.setBackground(new java.awt.Color(251, 93, 93));
                 } else {
                     JOptionPane.showMessageDialog(null, "Rekisteröityminen onnistui", "Rekisteröityminen", JOptionPane.INFORMATION_MESSAGE);
-                    registrationFrame.setVisible(false);
+                    this.setVisible(false);
+                    this.dispose();
                     Login login = new Login();
                     login.setVisible(true);
                 }

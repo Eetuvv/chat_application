@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 
 public class Login extends JFrame {
 
-    private final JFrame loginFrame = new JFrame("Login");
+    private final JFrame loginFrame = new JFrame("Kirjautuminen");
     private final JPanel loginPanel = new JPanel();
 
     public Login() {
@@ -110,12 +110,12 @@ public class Login extends JFrame {
                 // Check if username and password are correct
                 if (authentication.authenticateUser(user, password)) {
                     authentication.setLoggedUser(user);
-                    System.out.println("Käyttäjä " + authentication.getLoggedUser() + " kirjautui sisään.");
                     
+                    // Close login window and open chat window
                     this.setVisible(false);
+                    this.dispose();
                     Chat chatWindow = new Chat();
                     chatWindow.setVisible(true);
-                    
                 } else {
                     JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 }

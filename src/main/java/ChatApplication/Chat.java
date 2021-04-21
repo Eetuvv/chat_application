@@ -8,14 +8,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
-import java.awt.Window;
 import java.awt.event.KeyEvent;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -30,9 +28,6 @@ import javax.swing.border.LineBorder;
 public class Chat extends JFrame {
 
     public final JFrame chatFrame = new JFrame("Chat");
-    //private final JPanel chatPanel = new JPanel();
-    /*ArrayList<String> channels;
-    ArrayList<ChatMessage> messages;*/
     ChatChannel chatChannel = new ChatChannel();
     String currentChannel;
 
@@ -57,11 +52,6 @@ public class Chat extends JFrame {
         // Add default channels and description message to each channel
         chatChannel.addDefaultChannels();
 
-        // Initialize messages and add some example messages
-        /*this.messages = new ArrayList<>();
-        messages.add(new ChatMessage("First message", "22:20:00"));
-        messages.add(new ChatMessage("Second message", "22:20:10"));
-        messages.add(new ChatMessage("Third message", "22:20:30"));*/
         chatFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         chatFrame.setSize(1350, 950);
         chatFrame.setResizable(false);
@@ -98,8 +88,8 @@ public class Chat extends JFrame {
 
         // Create all components for chat window
         JLabel channelLabel = new JLabel("# " + currentChannel);
-        channelLabel.setFont(new java.awt.Font("Dialog", 1, 34));
-        channelLabel.setBounds(72, 30, 275, 50);
+        channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
+        channelLabel.setBounds(70, 30, 275, 50);
         channelLabel.setForeground(textColor);
 
         // Create JList to show chat messages
@@ -151,17 +141,6 @@ public class Chat extends JFrame {
         separator.setBounds(0, 775, 300, 1);
         separator.setForeground(new java.awt.Color(45, 45, 45));
 
-        // Text area for nickname to wrap text if name is very long
-        /*JTextArea nicknameText = new JTextArea();
-
-        nicknameText.setWrapStyleWord(true);
-        nicknameText.setLineWrap(true);
-        nicknameText.setOpaque(false);
-        nicknameText.setEditable(false);
-        nicknameText.setFocusable(false);
-        nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
-        nicknameText.setForeground(textColor);
-        nicknameText.setBounds(52, 700, 225, 175);*/
         JLabel nicknameText = new JLabel("Nickname nickname");
         nicknameText.setFocusable(false);
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
@@ -201,7 +180,6 @@ public class Chat extends JFrame {
         UIManager.put("ToolTip.border", new LineBorder(Color.BLACK, 1));
 
         // Add components to JPanel
-        //chatPanel.add(chatArea);
         chatPanel.add(scrollPane);
         chatPanel.add(messageField);
         chatPanel.add(sendMessageButton);
@@ -209,20 +187,43 @@ public class Chat extends JFrame {
         chatPanel.add(chooseChannelButton);
         chatPanel.add(createChannelButton);
         chatPanel.add(openSettingsButton);
-        // chatPanel.add(separator);
         chatPanel.add(nicknameText);
         chatPanel.add(logoutButton);
 
         // Set funcionality to buttons
         chooseChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
-            var selected = JOptionPane.showInputDialog(null, "Valitse kanava", "Kanava-asetukset", JOptionPane.DEFAULT_OPTION, null, chatChannel.listChannels().toArray(), "Yleinen");
-            if (selected != null) {//null if the user cancels. 
+            // Store selected value in a final JLabel variable, since lambda function requires final variable
+            final JLabel selected = new JLabel();
+            JList list = new JList(chatChannel.listChannels().toArray());
+            ChannelDialog dialog = new ChannelDialog("Valitse kanava listalta ", list);
+            // If user presses ok button, get the chosen channel name and pass it to selected label
+            dialog.setOnOk(event -> {
+                if (dialog.getSelectedItem() != null) {
+                    selected.setText(dialog.getSelectedItem().toString());
+                } else {
+                    selected.setText("");
+                }
+            });
+            dialog.show();
+            // If user chose ok button instead of cancel button, proceed
+            if (!selected.getText().isEmpty()) {// empty if the user cancels. 
                 // Set channel text to chosen channel
-                String selectedString = selected.toString().substring(0, 1).toUpperCase() + selected.toString().substring(1);;
+                String selectedString = selected.getText().substring(0, 1).toUpperCase() + selected.getText().substring(1);;
+
+                // Set channel label font size depending on channel string length
+                if (selectedString.length() >= 9 && selectedString.length() < 20) {
+                    channelLabel.setFont(new java.awt.Font("Dialog", 1, 28));
+                } else if (selectedString.length() >= 20) {
+                    channelLabel.setFont(new java.awt.Font("Dialog", 1, 26));
+                } else {
+                    channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
+                }
+
                 channelLabel.setText("# " + selectedString);
                 // Repaint frame to not mess up gradient
                 this.chatFrame.repaint();
 
+                // Set current channel viarable in chat channel -class and global variable
                 chatChannel.setCurrentChannel(selectedString);
                 currentChannel = selectedString;
 
@@ -256,6 +257,14 @@ public class Chat extends JFrame {
                     chatChannel.addChannel(capitalizedChannel);
                     // Set new channel to current channel
                     currentChannel = capitalizedChannel;
+
+                    if (capitalizedChannel.length() >= 9 && capitalizedChannel.length() < 20) {
+                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 28));
+                    } else if (capitalizedChannel.length() >= 20) {
+                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 26));
+                    } else {
+                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
+                    }
                     channelLabel.setText("# " + capitalizedChannel);
                     this.chatFrame.repaint();
 
@@ -292,7 +301,10 @@ public class Chat extends JFrame {
         });
 
         logoutButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            // Close chat window
             this.setVisible(false);
+            this.dispose();
+            // Open login window
             Login login = new Login();
             login.setVisible(true);
             // Set logged user to empty string when user logs out
