@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -27,6 +28,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
@@ -109,7 +111,7 @@ public class Chat extends JFrame {
         chatArea.setBackground(new java.awt.Color(106, 111, 117));
         chatArea.setCellRenderer(new CellRenderer());
         chatArea.setFixedCellHeight(85);
-
+        
         JScrollPane scrollPane = new JScrollPane(chatArea);
         scrollPane.setBounds(300, 2, 1035, 866);
 
@@ -136,26 +138,33 @@ public class Chat extends JFrame {
         chooseChannelButton.setForeground(textColor);
         chooseChannelButton.setBorder(new RoundedButton(15));
         chooseChannelButton.setToolTipText("Vaihda chat-kanava");
+        // Set icon to button
+        chooseChannelButton.setIcon(new javax.swing.ImageIcon("icons/swap_channel_icon.png"));
+        
+        //chooseChannelButton.setHorizontalAlignment(SwingConstants.);
+        chooseChannelButton.setHorizontalAlignment(SwingConstants.LEFT);
+        chooseChannelButton.setIconTextGap(24);
 
-        // TODO fix icons
-        //chooseChannelButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/swap_channel_icon.png")));
-        //jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/settings.png")));
-        JButton createChannelButton = new JButton("Luo kanava");
+        JButton createChannelButton = new JButton(" Luo kanava");
         createChannelButton.setBounds(45, 225, 200, 65);
         createChannelButton.setBackground(buttonColor);
         createChannelButton.setForeground(textColor);
         createChannelButton.setBorder(new RoundedButton(15));
         createChannelButton.setToolTipText("Luo uusi kanava haluamallesi aiheelle");
+        
+        createChannelButton.setIcon(new javax.swing.ImageIcon("icons/plus_icon.png"));
+        createChannelButton.setHorizontalAlignment(SwingConstants.LEFT);
+        createChannelButton.setIconTextGap(12);
 
         JSeparator separator = new JSeparator();
         separator.setBounds(0, 775, 300, 1);
         separator.setForeground(new java.awt.Color(45, 45, 45));
 
-        JLabel nicknameText = new JLabel("Nickname nickname");
+        JLabel nicknameText = new JLabel("Nimimerkki");
         nicknameText.setFocusable(false);
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
         nicknameText.setForeground(textColor);
-        nicknameText.setBounds(52, 650, 225, 175);
+        nicknameText.setBounds(78, 650, 225, 175);
         nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
         if (!authentication.getLoggedUser().isEmpty()) {
@@ -178,7 +187,11 @@ public class Chat extends JFrame {
         openSettingsButton.setBorder(new RoundedButton(15));
         openSettingsButton.setToolTipText("Avaa asetukset-valikko");
         openSettingsButton.setFocusable(false);
-
+        // Set icon to settings button
+        openSettingsButton.setIcon(new javax.swing.ImageIcon("icons/settings_icon.png"));
+        openSettingsButton.setHorizontalAlignment(SwingConstants.LEFT);
+        openSettingsButton.setIconTextGap(15);
+        
         JButton logoutButton = new JButton("Kirjaudu ulos");
         logoutButton.setBounds(55, 845, 180, 55);
         logoutButton.setBackground(new java.awt.Color(158, 63, 65));
@@ -257,7 +270,7 @@ public class Chat extends JFrame {
                 if (!selected.toString().isEmpty()) { // Check that channel string is not empty
                     // Add new channel to channels if it doesn't yet exist
                     String channelString = selected.toString();
-                    
+
                     // Capitalize first letter
                     String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
                     ArrayList<String> channels = chatChannel.listChannels();

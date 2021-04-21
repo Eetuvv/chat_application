@@ -72,7 +72,7 @@ public class Login extends JFrame {
         passwordField.setFont(new java.awt.Font("Segoe UI", 1, 18));
 
         JCheckBox passwordCheckBox = new JCheckBox("Näytä salasana");
-        passwordCheckBox.setBounds(350, 340, 150, 20);
+        passwordCheckBox.setBounds(346, 340, 150, 20);
         passwordCheckBox.setBackground(new java.awt.Color(60, 63, 65));
         passwordCheckBox.setForeground(textColor);
 
