@@ -8,7 +8,11 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -111,6 +115,12 @@ public class Chat extends JFrame {
         JTextField messageField = new JTextField();
         messageField.setBounds(300, 869, 932, 40);
         messageField.setFont(new java.awt.Font("Whitney", 1, 17));
+
+        // Set placeholder text if message field is empty
+        if (messageField.getText().length() == 0) {
+            messageField.setText("Lähetä viesti kanavalle #" + currentChannel);
+            messageField.setForeground(new Color(190, 190, 190));
+        }
 
         JButton sendMessageButton = new JButton("Lähetä");
         sendMessageButton.setBounds(1232, 869, 102, 40);
@@ -316,8 +326,10 @@ public class Chat extends JFrame {
             String timestamp = time.format(formatter);
 
             ChatMessage msg = new ChatMessage(message, timestamp);
-            // Don't send a new message if message is empty
-            if (!message.isEmpty()) {
+            
+            Color colorComparison = new java.awt.Color(190,190,190);
+            // Don't send a new message if message is empty or if message color equals placeholder color
+            if (!message.isEmpty() && !messageField.getForeground().equals(colorComparison)) {
                 model.addElement(msg);
                 chatChannel.addMessageToChannel(currentChannel, msg);
                 messageField.setText("");
@@ -360,6 +372,32 @@ public class Chat extends JFrame {
             }
         });
 
+        // Set placeholder text to messagefield when it is not in focus
+        messageField.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                messageField.setText("");
+                messageField.setForeground(new Color(50, 50, 50));
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                if (messageField.getText().length() == 0) {
+                    messageField.setText("Lähetä viesti kanavalle #" + currentChannel);
+                    messageField.setForeground(new Color(190, 190, 190));
+                }
+            }
+        });
+
+        // Change message field text when channel label text is changed (when channel is changed)
+        channelLabel.addPropertyChangeListener("text", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                messageField.setText("Lähetä viesti kanavalle " + channelLabel.getText().replaceAll("\\s+",""));
+                messageField.setForeground(new Color(190, 190, 190));
+            }
+        });
+        
         // Set hover actions to buttons
         chooseChannelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
