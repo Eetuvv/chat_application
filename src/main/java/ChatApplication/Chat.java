@@ -101,15 +101,14 @@ public class Chat extends JFrame {
         });
 
         JList<ChatMessage> chatArea = new JList<>(model);
-        JScrollPane scrollPane = new JScrollPane(chatArea);
-
         chatArea.setBackground(new java.awt.Color(106, 111, 117));
         chatArea.setCellRenderer(new CellRenderer());
         chatArea.setFixedCellHeight(85);
 
+        JScrollPane scrollPane = new JScrollPane(chatArea);
         scrollPane.setBounds(300, 2, 1035, 866);
 
-        JTextField messageField = new RoundedTextField(5);
+        JTextField messageField = new JTextField();
         messageField.setBounds(300, 869, 932, 40);
         messageField.setFont(new java.awt.Font("Whitney", 1, 17));
 
@@ -117,14 +116,14 @@ public class Chat extends JFrame {
         sendMessageButton.setBounds(1232, 869, 102, 40);
         sendMessageButton.setBackground(new java.awt.Color(62, 62, 68));
         sendMessageButton.setForeground(textColor);
-        sendMessageButton.setBorder(new RoundedBorder(5));
+        //sendMessageButton.setBorder(new RoundedButton(5));
         sendMessageButton.setFocusable(false);
 
         JButton chooseChannelButton = new JButton("Vaihda kanava");
         chooseChannelButton.setBounds(45, 125, 200, 65);
         chooseChannelButton.setBackground(buttonColor);
         chooseChannelButton.setForeground(textColor);
-        chooseChannelButton.setBorder(new RoundedBorder(15));
+        chooseChannelButton.setBorder(new RoundedButton(15));
         chooseChannelButton.setToolTipText("Vaihda chat-kanava");
 
         // TODO fix icons
@@ -134,7 +133,7 @@ public class Chat extends JFrame {
         createChannelButton.setBounds(45, 225, 200, 65);
         createChannelButton.setBackground(buttonColor);
         createChannelButton.setForeground(textColor);
-        createChannelButton.setBorder(new RoundedBorder(15));
+        createChannelButton.setBorder(new RoundedButton(15));
         createChannelButton.setToolTipText("Luo uusi kanava haluamallesi aiheelle");
 
         JSeparator separator = new JSeparator();
@@ -146,6 +145,7 @@ public class Chat extends JFrame {
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
         nicknameText.setForeground(textColor);
         nicknameText.setBounds(52, 650, 225, 175);
+        nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
         if (!authentication.getLoggedUser().isEmpty()) {
             if (authentication.getLoggedUser().length() < 10) {
@@ -164,7 +164,7 @@ public class Chat extends JFrame {
         openSettingsButton.setBounds(55, 775, 180, 55);
         openSettingsButton.setBackground(buttonColor);
         openSettingsButton.setForeground(textColor);
-        openSettingsButton.setBorder(new RoundedBorder(15));
+        openSettingsButton.setBorder(new RoundedButton(15));
         openSettingsButton.setToolTipText("Avaa asetukset-valikko");
         openSettingsButton.setFocusable(false);
 
@@ -172,7 +172,7 @@ public class Chat extends JFrame {
         logoutButton.setBounds(55, 845, 180, 55);
         logoutButton.setBackground(new java.awt.Color(158, 63, 65));
         logoutButton.setForeground(textColor);
-        logoutButton.setBorder(new RoundedBorder(15));
+        logoutButton.setBorder(new RoundedButton(15));
         logoutButton.setToolTipText("Kirjaudu ulos ja palaa kirjautumisnäkymään");
 
         // Set tooltip text color and background
@@ -193,15 +193,13 @@ public class Chat extends JFrame {
         // Set funcionality to buttons
         chooseChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             // Store selected value in a final JLabel variable, since lambda function requires final variable
-            final JLabel selected = new JLabel();
+            final JLabel selected = new JLabel("");
             JList list = new JList(chatChannel.listChannels().toArray());
             ChannelDialog dialog = new ChannelDialog("Valitse kanava listalta ", list);
             // If user presses ok button, get the chosen channel name and pass it to selected label
             dialog.setOnOk(event -> {
                 if (dialog.getSelectedItem() != null) {
                     selected.setText(dialog.getSelectedItem().toString());
-                } else {
-                    selected.setText("");
                 }
             });
             dialog.show();

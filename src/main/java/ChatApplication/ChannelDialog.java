@@ -26,7 +26,7 @@ public class ChannelDialog {
         dialog.setTitle(title);
     }
 
-    // Nested class for rendering channe list cells
+    // Nested class for rendering channel list cells
     class ChannelListRenderer extends JLabel implements ListCellRenderer<Object> {
 
         public ChannelListRenderer() {

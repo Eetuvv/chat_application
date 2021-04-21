@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Registration extends JFrame {
 
@@ -131,6 +132,7 @@ public class Registration extends JFrame {
             String email = emailField.getText();
             String nickname = user;
 
+            UIManager.put("OptionPane.okButtonText", "OK");
             if (password.isEmpty() || user.isEmpty() || email.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Täytä kaikki tiedot", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
             } else if (!password.equals(password2)) {

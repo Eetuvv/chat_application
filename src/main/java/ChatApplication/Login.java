@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 public class Login extends JFrame {
 
@@ -104,6 +105,7 @@ public class Login extends JFrame {
             String user = usernameField.getText();
             String password = passwordField.getText();
 
+            UIManager.put("OptionPane.okButtonText", "OK");
             if (password.isEmpty() || user.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Käyttäjätunnus tai salasana ei saa olla tyhjä", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
             } else {

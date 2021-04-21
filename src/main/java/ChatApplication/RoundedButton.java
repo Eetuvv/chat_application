@@ -5,11 +5,11 @@ import java.awt.Graphics;
 import java.awt.Insets;
 import javax.swing.border.Border;
 
-class RoundedBorder implements Border {
+class RoundedButton implements Border {
 
     private final int radius;
 
-    RoundedBorder(int radius) {
+    RoundedButton(int radius) {
         this.radius = radius;
     }
 

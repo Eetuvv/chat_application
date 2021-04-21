@@ -72,7 +72,7 @@ public class Settings extends JFrame {
         emailUserLabel.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
         JButton changePasswordButton = new JButton();
-        changePasswordButton.setBorder(new RoundedBorder(10));
+        changePasswordButton.setBorder(new RoundedButton(10));
         changePasswordButton.setBackground(new java.awt.Color(79, 119, 240));
         changePasswordButton.setForeground(textColor);
         changePasswordButton.setFont(new java.awt.Font("Segoe UI", 1, 10));
@@ -81,7 +81,7 @@ public class Settings extends JFrame {
         changePasswordButton.setFocusable(false);
 
         JButton changeEmailButton = new JButton();
-        changeEmailButton.setBorder(new RoundedBorder(10));
+        changeEmailButton.setBorder(new RoundedButton(10));
         changeEmailButton.setBackground(new java.awt.Color(79, 119, 240));
         changeEmailButton.setForeground(textColor);
         changeEmailButton.setFont(new java.awt.Font("Segoe UI", 1, 10));
@@ -105,7 +105,7 @@ public class Settings extends JFrame {
         userNicknameLabel.setFont(new java.awt.Font("Segoe UI", 1, 20));
 
         JButton changeNicknameButton = new JButton();
-        changeNicknameButton.setBorder(new RoundedBorder(10));
+        changeNicknameButton.setBorder(new RoundedButton(10));
         changeNicknameButton.setBackground(new java.awt.Color(79, 119, 240));
         changeNicknameButton.setForeground(textColor);
         changeNicknameButton.setFont(new java.awt.Font("Segoe UI", 1, 10));
@@ -114,7 +114,7 @@ public class Settings extends JFrame {
         changeNicknameButton.setFocusable(false);
 
         JButton logoutButton = new JButton();
-        logoutButton.setBorder(new RoundedBorder(10));
+        logoutButton.setBorder(new RoundedButton(10));
         logoutButton.setBackground(new java.awt.Color(158, 63, 65));
         logoutButton.setForeground(textColor);
         logoutButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
