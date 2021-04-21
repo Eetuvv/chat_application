@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -244,7 +245,7 @@ public class Chat extends JFrame {
             }
         });
 
-        createChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+        createChannelButton.addActionListener((ActionEvent evt) -> {
             UIManager.put("OptionPane.cancelButtonText", "Peruuta");
             UIManager.put("OptionPane.okButtonText", "Valmis");
             UIManager.put("OptionPane.yesButtonText", "Siirry");
@@ -252,57 +253,59 @@ public class Chat extends JFrame {
 
             var selected = JOptionPane.showInputDialog(null, "Syötä kanavan nimi", "Luo uusi kanava", JOptionPane.PLAIN_MESSAGE, null, null, null);
 
-            if (selected != null) {
-                // Add new channel to channels if it doesn't yet exist
-                String channelString = selected.toString();
+            if (selected != null) { // Null if user cancels
+                if (!selected.toString().isEmpty()) { // Check that channel string is not empty
+                    // Add new channel to channels if it doesn't yet exist
+                    String channelString = selected.toString();
+                    
+                    // Capitalize first letter
+                    String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
+                    ArrayList<String> channels = chatChannel.listChannels();
 
-                // Capitalize first letter
-                String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
-                ArrayList<String> channels = chatChannel.listChannels();
-
-                // If channel doesn't exist yet, add a new channel
-                if (!channels.stream().anyMatch(capitalizedChannel::equalsIgnoreCase)) {
-                    chatChannel.addChannel(capitalizedChannel);
-                    // Set new channel to current channel
-                    currentChannel = capitalizedChannel;
-
-                    if (capitalizedChannel.length() >= 9 && capitalizedChannel.length() < 20) {
-                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 28));
-                    } else if (capitalizedChannel.length() >= 20) {
-                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 26));
-                    } else {
-                        channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
-                    }
-                    channelLabel.setText("# " + capitalizedChannel);
-                    this.chatFrame.repaint();
-
-                    // Clear chat area
-                    model.removeAllElements();
-                    // Get messages from current channel and append them to chat area
-                    chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
-                        model.addElement(msg);
-                    });
-                } else {
-                    // Get channel name from channels list to make sure that capitalization is the same
-                    for (int i = 0; i < channels.size(); i++) {
-                        if (channels.get(i).equalsIgnoreCase(capitalizedChannel)) {
-                            capitalizedChannel = channels.get(i);
-                        }
-                    }
-                    var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + capitalizedChannel + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-                    // If user chooses to switch channel, set current channel to new channel
-                    if (selection == JOptionPane.YES_OPTION) {
-                        chatChannel.setCurrentChannel(capitalizedChannel);
+                    // If channel doesn't exist yet, add a new channel
+                    if (!channels.stream().anyMatch(capitalizedChannel::equalsIgnoreCase)) {
+                        chatChannel.addChannel(capitalizedChannel);
+                        // Set new channel to current channel
                         currentChannel = capitalizedChannel;
+
+                        if (capitalizedChannel.length() >= 9 && capitalizedChannel.length() < 20) {
+                            channelLabel.setFont(new java.awt.Font("Dialog", 1, 28));
+                        } else if (capitalizedChannel.length() >= 20) {
+                            channelLabel.setFont(new java.awt.Font("Dialog", 1, 26));
+                        } else {
+                            channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
+                        }
                         channelLabel.setText("# " + capitalizedChannel);
-                        // Repaint frame to not mess up gradient
                         this.chatFrame.repaint();
+
                         // Clear chat area
                         model.removeAllElements();
                         // Get messages from current channel and append them to chat area
                         chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
                             model.addElement(msg);
                         });
+                    } else {
+                        // Get channel name from channels list to make sure that capitalization is the same
+                        for (int i = 0; i < channels.size(); i++) {
+                            if (channels.get(i).equalsIgnoreCase(capitalizedChannel)) {
+                                capitalizedChannel = channels.get(i);
+                            }
+                        }
+                        var selection = JOptionPane.showConfirmDialog(null, "Kanava on jo olemassa, siirry kanavalle '" + capitalizedChannel + "'?", "Valitse toiminto...", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                        // If user chooses to switch channel, set current channel to new channel
+                        if (selection == JOptionPane.YES_OPTION) {
+                            chatChannel.setCurrentChannel(capitalizedChannel);
+                            currentChannel = capitalizedChannel;
+                            channelLabel.setText("# " + capitalizedChannel);
+                            // Repaint frame to not mess up gradient
+                            this.chatFrame.repaint();
+                            // Clear chat area
+                            model.removeAllElements();
+                            // Get messages from current channel and append them to chat area
+                            chatChannel.getMessagesFromChannel(currentChannel).forEach(msg -> {
+                                model.addElement(msg);
+                            });
+                        }
                     }
                 }
             }
@@ -326,8 +329,8 @@ public class Chat extends JFrame {
             String timestamp = time.format(formatter);
 
             ChatMessage msg = new ChatMessage(message, timestamp);
-            
-            Color colorComparison = new java.awt.Color(190,190,190);
+
+            Color colorComparison = new java.awt.Color(190, 190, 190);
             // Don't send a new message if message is empty or if message color equals placeholder color
             if (!message.isEmpty() && !messageField.getForeground().equals(colorComparison)) {
                 model.addElement(msg);
@@ -393,11 +396,11 @@ public class Chat extends JFrame {
         channelLabel.addPropertyChangeListener("text", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
-                messageField.setText("Lähetä viesti kanavalle " + channelLabel.getText().replaceAll("\\s+",""));
+                messageField.setText("Lähetä viesti kanavalle " + channelLabel.getText().replaceAll("\\s+", ""));
                 messageField.setForeground(new Color(190, 190, 190));
             }
         });
-        
+
         // Set hover actions to buttons
         chooseChannelButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
