@@ -64,11 +64,14 @@ public class ChannelDialog {
 
     private void setupButtons() {
         okButton = new JButton("Valmis");
-        okButton.setBackground(new java.awt.Color(60, 151, 51));
+        //okButton.setBackground(new java.awt.Color(60, 151, 51));
+        okButton.setBackground(new java.awt.Color(79, 119, 240));
+        okButton.setForeground(Color.WHITE);
         okButton.addActionListener(e -> handleOkButtonClick(e));
 
         cancelButton = new JButton("Peruuta");
         cancelButton.setBackground(new java.awt.Color(181, 60, 51));
+        cancelButton.setForeground(Color.WHITE);
         cancelButton.addActionListener(e -> handleCancelButtonClick(e));
     }
 
@@ -99,6 +102,7 @@ public class ChannelDialog {
             okEvent.actionPerformed(e);
             // If user didn't select a channel, display error message
             if (list.getSelectedValue() == null) {
+                UIManager.put("OptionPane.okButtonText", "OK");
                 JOptionPane.showMessageDialog(null, "Et valinnut kanavaa. Valitse kanava.", "Kanavavirhe", JOptionPane.ERROR_MESSAGE);
             } else {
                 hide();
