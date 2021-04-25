@@ -202,10 +202,6 @@ public class Chat extends JFrame {
         logoutButton.setHorizontalAlignment(SwingConstants.LEFT);
         logoutButton.setIconTextGap(20);
 
-        // Set tooltip text color and background
-        UIManager.put("ToolTip.background", Color.white);
-        UIManager.put("ToolTip.border", new LineBorder(Color.BLACK, 1));
-
         // Add components to JPanel
         chatPanel.add(scrollPane);
         chatPanel.add(messageField);

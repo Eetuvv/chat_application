@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 
 public class Login extends JFrame {
 
@@ -89,6 +90,10 @@ public class Login extends JFrame {
         registerButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
         registerButton.setText("Uusi käyttäjä? Rekisteröidy");
         registerButton.setBounds(350, 440, 300, 40);
+        
+        // Set tooltip text color and background
+        UIManager.put("ToolTip.background", Color.white);
+        UIManager.put("ToolTip.border", new LineBorder(Color.BLACK, 1));
 
         // Add components to JPanel
         loginPanel.add(titleLabel);
