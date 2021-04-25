@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Settings extends JFrame {
 
@@ -31,7 +29,7 @@ public class Settings extends JFrame {
 
         settingsFrame.setSize(1000, 800);
         settingsFrame.setResizable(false);
-        settingsFrame.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
         settingsFrame.add(settingsPanel);
         settingsPanel.setLayout(null);
@@ -158,64 +156,57 @@ public class Settings extends JFrame {
         settingsPanel.add(separator3);
 
         // Adding functionality to buttons
-        changePasswordButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                var selected = JOptionPane.showInputDialog(null, "Syötä uusi salasana", "Vaida salasanaa",
-                        JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                if (selected != null) {
-                    if (!selected.toString().isEmpty()) { // Check that channel string is not empty
-                        // Add new channel to channels if it doesn't yet exist
-                        String pWordString = selected.toString();
-                        authentication.setPassword(pWordString);
-                        System.out.println(pWordString);
-
-                    }
-                }
-            }
-        });
-
-        changeEmailButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                var selected = JOptionPane.showInputDialog(null, "Syötä uusi sähköposti", "Vaida sähköposti",
-                        JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                if (selected != null) {
-                    if (!selected.toString().isEmpty()) { // Check that channel string is not empty
-                        // Add new channel to channels if it doesn't yet exist
-                        String emailString = selected.toString();
-                        authentication.setLoggedEmail(emailString);
-                        emailUserLabel.setText(emailString);
-                        System.out.println(emailString);
-
-                    }
-                }
-            }
-        });
-
-        changeNicknameButton.addActionListener(new java.awt.event.ActionListener() {
-            @Override
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                var selected = JOptionPane.showInputDialog(null, "Syötä uusi lempinimi", "Vaida lempinimeä",
-                        JOptionPane.PLAIN_MESSAGE, null, null, null);
-
-                if (selected != null) {
-                    if (!selected.toString().isEmpty()) { // Check that channel string is not empty
-                        // Add new channel to channels if it doesn't yet exist
-                        String nickNameString = selected.toString();
-                        authentication.setLoggedNick(nickNameString);
-                        userNicknameLabel.setText(nickNameString);
-                        System.out.println(nickNameString);
-
-                    }
-                }
-            }
-        });
+        changePasswordButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            var selected = JOptionPane.showInputDialog(null, "Syötä uusi salasana", "Vaida salasanaa",
+                    JOptionPane.PLAIN_MESSAGE, null, null, null);
             
+            if (selected != null) {
+                if (!selected.toString().isEmpty()) { // Check that channel string is not empty
+                    // Add new channel to channels if it doesn't yet exist
+                    String pWordString = selected.toString();
+                    authentication.setPassword(pWordString);
+                    System.out.println(pWordString);
+                    
+                }
+            }
+        });
 
-    
+        changeEmailButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            var selected = JOptionPane.showInputDialog(null, "Syötä uusi sähköposti", "Vaida sähköposti",
+                    JOptionPane.PLAIN_MESSAGE, null, null, null);
+
+            if (selected != null) {
+                if (!selected.toString().isEmpty()) { // Check that channel string is not empty
+                    // Add new channel to channels if it doesn't yet exist
+                    String emailString = selected.toString();
+                    authentication.setLoggedEmail(emailString);
+                    emailUserLabel.setText(emailString);
+                    System.out.println(emailString);
+
+                }
+            }
+        });
+
+        changeEmailButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            String name1 = JOptionPane.showInputDialog(settingsFrame,
+                    "Syötä uusi tieto", null);
+        });
+
+        changeNicknameButton.addActionListener((java.awt.event.ActionEvent evt) -> {
+            var selected = JOptionPane.showInputDialog(null, "Syötä uusi lempinimi", "Vaida lempinimeä",
+                    JOptionPane.PLAIN_MESSAGE, null, null, null);
+            
+            if (selected != null) {
+                if (!selected.toString().isEmpty()) { // Check that channel string is not empty
+                    // Add new channel to channels if it doesn't yet exist
+                    String nickNameString = selected.toString();
+                    authentication.setLoggedNick(nickNameString);
+                    userNicknameLabel.setText(nickNameString);
+                    System.out.println(nickNameString);
+                    
+                }
+            }
+        });
 
         logoutButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             // Close all windows
@@ -227,30 +218,20 @@ public class Settings extends JFrame {
             authentication.setLoggedUser("");
         });
 
-        addWindowListener(new WindowAdapter()
-        {
-           @Override
-            public void windowClosing(WindowEvent e)
-            {
-                System.out.println("Closed");
-                e.getWindow().dispose();
-            }
-        });
-
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
+            public void mouseEntered(java.awt.event.MouseEvent evt
+            ) {
                 logoutButton.setBackground(new java.awt.Color(168, 73, 75));
             }
 
             @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
+            public void mouseExited(java.awt.event.MouseEvent evt
+            ) {
                 logoutButton.setBackground(new java.awt.Color(158, 63, 65));
             }
         });
     }
-
-    
 
     private void closeAllDialogs() {
         Window[] windows = getWindows();
@@ -263,11 +244,10 @@ public class Settings extends JFrame {
     }
 
     // Set visiblity of settings window
+    @Override
     public void setVisible(boolean visible) {
         settingsFrame.setVisible(visible);
     }
-
-    
 
     // Main for testing
     public static void main(String[] args) {
