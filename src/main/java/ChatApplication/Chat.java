@@ -162,14 +162,14 @@ public class Chat extends JFrame {
 
         JLabel nicknameText = new JLabel("Nimimerkki");
         nicknameText.setFocusable(false);
-        nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 21));
+        nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 25));
         nicknameText.setForeground(textColor);
         nicknameText.setBounds(78, 650, 225, 175);
         nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
         if (!authentication.getLoggedUser().isEmpty()) {
             if (authentication.getLoggedUser().length() < 10) {
-                nicknameText.setBounds(122, 650, 225, 175);
+                nicknameText.setBounds(110, 650, 225, 175);
             } else if (authentication.getLoggedUser().length() > 10
                     && authentication.getLoggedUser().length() <= 15) {
                 nicknameText.setBounds(78, 650, 225, 175);
@@ -266,7 +266,7 @@ public class Chat extends JFrame {
             UIManager.put("OptionPane.noButtonText", "Peruuta");
 
             final JLabel selected = new JLabel("");
-            CustomDialog dialog = new CustomDialog("Kanavan luominen", " Syötä kanavan nimi");
+            CustomDialog dialog = new CustomDialog("Kanavan luominen", "Syötä kanavan nimi");
             dialog.setOnOk(event -> {
                 if (dialog.getText() != null) {
                     selected.setText(dialog.getText());
