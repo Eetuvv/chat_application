@@ -261,14 +261,12 @@ public class Chat extends JFrame {
             }
         });
 
-        createChannelButton.addActionListener((var evt) -> {
-            UIManager.put("OptionPane.cancelButtonText", "Peruuta");
-            UIManager.put("OptionPane.okButtonText", "Valmis");
+        createChannelButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             UIManager.put("OptionPane.yesButtonText", "Siirry");
             UIManager.put("OptionPane.noButtonText", "Peruuta");
 
-            final JLabel selected = new JLabel();
-            CustomDialog dialog = new CustomDialog("title", " msg");
+            final JLabel selected = new JLabel("");
+            CustomDialog dialog = new CustomDialog("Kanavan luominen", " Syötä kanavan nimi");
             dialog.setOnOk(event -> {
                 if (dialog.getText() != null) {
                     selected.setText(dialog.getText());
@@ -276,16 +274,12 @@ public class Chat extends JFrame {
             });
             dialog.show();
 
-            System.out.println(selected.getText());
-            String selectedText = selected.getText();
-            System.out.println(selectedText);
-            //var selected = JOptionPane.showInputDialog(null, "Syötä kanavan nimi", "Luo uusi kanava", JOptionPane.PLAIN_MESSAGE, null, null, null);
-            if (!selectedText.isEmpty()) { // Check that channel string is not empty
-                // Add new channel to channels if it doesn't yet exist
-                String channelString = selectedText;
+            String channelString = selected.getText();
 
+            if (!channelString.isEmpty()) { // Check that channel string is not empty
+                // Add new channel to channels if it doesn't yet exist
                 // Capitalize first letter
-                String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.toString().substring(1);;
+                String capitalizedChannel = channelString.substring(0, 1).toUpperCase() + channelString.substring(1);
                 ArrayList<String> channels = chatChannel.listChannels();
 
                 // If channel doesn't exist yet, add a new channel
