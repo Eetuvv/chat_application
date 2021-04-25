@@ -360,8 +360,7 @@ public class Chat extends JFrame {
         openSettingsButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             Settings settings = new Settings();
             settings.setVisible(true);
-            // Set logged user to empty string when user logs out
-            authentication.setLoggedUser("");
+
         });
 
         messageField.addKeyListener(new java.awt.event.KeyListener() {

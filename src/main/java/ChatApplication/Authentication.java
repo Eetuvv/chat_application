@@ -51,4 +51,41 @@ public class Authentication {
         // Get name of a user currently logged in
         return this.loggedUser;
     }
+
+    public void setLoggedEmail(String newEmail){
+        String username = getLoggedUser();
+        String password = this.users.get(username).password;
+        String nickname = this.users.get(username).nickname;
+        
+        User user = new User(username, password, newEmail, nickname);
+        this.users.put(getLoggedUser(), user);
+    }
+    
+
+    public String getLoggedEmail(){
+        return this.users.get(getLoggedUser()).email;
+    }
+
+    public void setLoggedNick(String nick){
+        String username = getLoggedUser();
+        String password = this.users.get(username).password;
+        String email = this.users.get(username).email;
+        
+        User user = new User(username, password, email, nick);
+        this.users.put(getLoggedUser(), user);
+    }
+
+    public String getLoggedNick(){
+        return this.users.get(getLoggedUser()).nickname;
+
+    }
+    public void setPassword(String password){
+        String username = getLoggedUser();
+        String nickname = this.users.get(username).nickname;
+        String email = this.users.get(username).email;
+        
+        User user = new User(username, password, email, nickname);
+        this.users.put(getLoggedUser(), user);
+    }
+
 }
