@@ -159,15 +159,6 @@ public class Registration extends JFrame {
         });
 
         // Add listeners to text fields and password fields to change background to red if field is empty
-        usernameField.addPropertyChangeListener("text", (PropertyChangeEvent evt) -> {
-            Color redBackground = new java.awt.Color(251, 93, 93);
-            System.out.println("woo");
-            if (!usernameField.getText().isEmpty() && usernameField.getBackground().equals(redBackground)) {
-                usernameField.setBackground(Color.WHITE);
-            } else if (usernameField.getText().isEmpty()) {
-                usernameField.setBackground(redBackground);
-            }
-        });
 
         usernameField.addKeyListener(new KeyListener() {
             @Override
