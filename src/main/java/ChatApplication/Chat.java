@@ -462,19 +462,7 @@ public class Chat extends JFrame {
                 openSettingsButton.setBackground(new java.awt.Color(60, 60, 60));
             }
         });
-
-        sendMessageButton.addMouseListener(new java.awt.event.MouseAdapter() {
-            @Override
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                sendMessageButton.setBackground(new java.awt.Color(72, 72, 81));
-            }
-
-            @Override
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                sendMessageButton.setBackground(new java.awt.Color(62, 62, 71));
-            }
-        });
-
+        
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {

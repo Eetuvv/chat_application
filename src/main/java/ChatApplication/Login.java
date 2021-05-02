@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
@@ -90,7 +91,7 @@ public class Login extends JFrame {
         registerButton.setFont(new java.awt.Font("Segoe UI", 1, 14));
         registerButton.setText("Uusi käyttäjä? Rekisteröidy");
         registerButton.setBounds(350, 440, 300, 40);
-        
+
         // Set tooltip text color and background
         UIManager.put("ToolTip.background", Color.white);
         UIManager.put("ToolTip.border", new LineBorder(Color.BLACK, 1));
@@ -105,10 +106,12 @@ public class Login extends JFrame {
         loginPanel.add(loginButton);
         loginPanel.add(registerButton);
 
+        loginFrame.getRootPane().setDefaultButton(loginButton);
+
         // Set login button functionality
         loginButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             String user = usernameField.getText();
-            String password = passwordField.getText();
+            String password = String.valueOf(passwordField.getPassword());
 
             UIManager.put("OptionPane.okButtonText", "OK");
             if (password.isEmpty() || user.isEmpty()) {
@@ -117,7 +120,7 @@ public class Login extends JFrame {
                 // Check if username and password are correct
                 if (authentication.authenticateUser(user, password)) {
                     authentication.setLoggedUser(user);
-                    
+
                     // Close login window and open chat window
                     this.setVisible(false);
                     this.dispose();
@@ -126,6 +129,24 @@ public class Login extends JFrame {
                 } else {
                     JOptionPane.showMessageDialog(null, "Väärä käyttäjätunnus tai salasana", "Kirjautumisvirhe", JOptionPane.ERROR_MESSAGE);
                 }
+            }
+        });
+
+        loginButton.addKeyListener(new java.awt.event.KeyListener() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+            }
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                // Activate login button when enter key is pressed
+                if (e.getKeyChar() == KeyEvent.VK_ENTER) {
+                    loginButton.doClick();
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
             }
         });
 
