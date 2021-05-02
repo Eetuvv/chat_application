@@ -1,12 +1,12 @@
 package ChatApplication;
 
 public class User {
-    
-    String username;
-    String password;
-    String email;
-    String nickname;
-    
+
+    public String username;
+    public String password;
+    public String email;
+    public String nickname;
+
     public User(String username, String password, String email, String nickname) {
         this.username = username;
         this.password = password;
@@ -14,5 +14,4 @@ public class User {
         this.nickname = nickname;
     }
 
- 
 }

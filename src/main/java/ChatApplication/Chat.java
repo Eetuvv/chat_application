@@ -32,8 +32,8 @@ import javax.swing.UIManager;
 public class Chat extends JFrame {
 
     public final JFrame chatFrame = new JFrame("Chat");
-    ChatChannel chatChannel = new ChatChannel();
-    String currentChannel;
+    private ChatChannel chatChannel = new ChatChannel();
+    public String currentChannel;
 
     public Chat() {
         currentChannel = chatChannel.getCurrentChannel();
@@ -167,8 +167,10 @@ public class Chat extends JFrame {
         nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
         if (!authentication.getLoggedUser().isEmpty()) {
-            if (authentication.getLoggedUser().length() < 10) {
-                nicknameText.setBounds(110, 650, 225, 175);
+            if (authentication.getLoggedUser().length() <= 5) {
+                nicknameText.setBounds(115, 650, 225, 175);
+            } else if (authentication.getLoggedUser().length() < 10) {
+                nicknameText.setBounds(100, 650, 225, 175);
             } else if (authentication.getLoggedUser().length() > 10
                     && authentication.getLoggedUser().length() <= 15) {
                 nicknameText.setBounds(78, 650, 225, 175);
@@ -479,12 +481,5 @@ public class Chat extends JFrame {
     @Override
     public void setVisible(boolean visible) {
         chatFrame.setVisible(visible);
-    }
-
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> {
-            Chat chat = new Chat();
-            chat.setVisible(true);
-        });
     }
 }

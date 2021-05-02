@@ -9,11 +9,7 @@ public class ChatMessage {
     public ChatMessage(String message, String timestamp) {
         Authentication authentication = Authentication.getInstance();
 
-        if (authentication.getLoggedUser().isEmpty()) {
-            this.user = "Anonyymi";
-        } else {
-            this.user = authentication.getLoggedUser();
-        }
+        this.user = authentication.getLoggedUser();
         this.timestamp = timestamp;
         this.message = message;
     }

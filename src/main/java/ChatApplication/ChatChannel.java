@@ -5,7 +5,7 @@ import java.util.HashMap;
 
 public class ChatChannel {
 
-    private ArrayList<ChatMessage> messages;
+    private final ArrayList<ChatMessage> messages;
     HashMap<String, ChatChannel> channels;
     String currentChannel;
 

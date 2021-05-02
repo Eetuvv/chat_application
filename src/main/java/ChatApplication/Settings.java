@@ -9,8 +9,8 @@ import java.awt.Window;
 
 public class Settings extends JFrame {
 
-    private JFrame settingsFrame = new JFrame("Asetukset");
-    private JPanel settingsPanel = new JPanel();
+    private final JFrame settingsFrame = new JFrame("Asetukset");
+    private final JPanel settingsPanel = new JPanel();
 
     public Settings() {
         initComponents();
@@ -247,13 +247,5 @@ public class Settings extends JFrame {
     @Override
     public void setVisible(boolean visible) {
         settingsFrame.setVisible(visible);
-    }
-
-    // Main for testing
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> {
-            Settings settings = new Settings();
-            settings.setVisible(true);
-        });
     }
 }
