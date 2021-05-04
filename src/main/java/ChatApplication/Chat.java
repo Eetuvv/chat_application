@@ -166,19 +166,19 @@ public class Chat extends JFrame {
         nicknameText.setBounds(78, 650, 225, 175);
         nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
-        if (!authentication.getLoggedUser().isEmpty()) {
-            if (authentication.getLoggedUser().length() <= 5) {
+        if (!authentication.getLoggedNick().isEmpty()) {
+            if (authentication.getLoggedNick().length() <= 5) {
                 nicknameText.setBounds(115, 650, 225, 175);
-            } else if (authentication.getLoggedUser().length() < 10) {
+            } else if (authentication.getLoggedNick().length() < 10) {
                 nicknameText.setBounds(100, 650, 225, 175);
-            } else if (authentication.getLoggedUser().length() > 10
-                    && authentication.getLoggedUser().length() <= 15) {
+            } else if (authentication.getLoggedNick().length() > 10
+                    && authentication.getLoggedNick().length() <= 15) {
                 nicknameText.setBounds(78, 650, 225, 175);
-            } else if (authentication.getLoggedUser().length() > 15
-                    && authentication.getLoggedUser().length() < 20) {
+            } else if (authentication.getLoggedNick().length() > 15
+                    && authentication.getLoggedNick().length() < 20) {
                 nicknameText.setBounds(65, 650, 225, 175);
             }
-            nicknameText.setText(authentication.getLoggedUser());
+            nicknameText.setText(authentication.getLoggedNick());
         }
 
         JButton openSettingsButton = new JButton("Asetukset");
@@ -477,6 +477,7 @@ public class Chat extends JFrame {
             }
         });
     }
+
 
     @Override
     public void setVisible(boolean visible) {

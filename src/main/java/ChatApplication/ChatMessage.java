@@ -9,7 +9,7 @@ public class ChatMessage {
     public ChatMessage(String message, String timestamp) {
         Authentication authentication = Authentication.getInstance();
 
-        this.user = authentication.getLoggedUser();
+        this.user = authentication.getLoggedNick();
         this.timestamp = timestamp;
         this.message = message;
     }
