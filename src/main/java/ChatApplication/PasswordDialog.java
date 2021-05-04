@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class PasswordDialog {
+
     private JPasswordField passwordField = new JPasswordField();
     private JPasswordField passwordField2 = new JPasswordField();
     private JOptionPane optionPane;
@@ -23,7 +24,7 @@ public class PasswordDialog {
         setupButtons();
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
-        optionPane.setOptions(new Object[] { okButton, cancelButton });
+        optionPane.setOptions(new Object[]{okButton, cancelButton});
 
         dialog = new JDialog();
         dialog.add(optionPane);
@@ -72,23 +73,18 @@ public class PasswordDialog {
         if (okEvent != null) {
             okEvent.actionPerformed(e);
 
-            if (String.valueOf(passwordField.getPassword()).isEmpty()
-                    || String.valueOf(passwordField2.getPassword()).isEmpty()) {
+            if (String.valueOf(passwordField.getPassword()).isEmpty() || String.valueOf(passwordField2.getPassword()).isEmpty()) {
                 UIManager.put("OptionPane.okButtonText", "OK");
-                JOptionPane.showMessageDialog(null, "Täytä molemmat kentät!.", "Virhe", JOptionPane.ERROR_MESSAGE);
-
+                JOptionPane.showMessageDialog(null, "Täytä molemmat kentät!", "Virhe", JOptionPane.ERROR_MESSAGE);
             } else if (!authentication.authenticateUser(authentication.getLoggedUser(),
                     String.valueOf(passwordField.getPassword()))) {
                 UIManager.put("OptionPane.okButtonText", "OK");
-                JOptionPane.showMessageDialog(null, "Nykyinen salasana ei täsmää.", "Salasanavirhe",
+                JOptionPane.showMessageDialog(null, "Nykyinen salasana on väärä!", "Salasanavirhe",
                         JOptionPane.ERROR_MESSAGE);
-
             } else {
                 hide();
             }
-
         }
-
     }
 
     private void handleCancelButtonClick(ActionEvent e) {
@@ -107,7 +103,6 @@ public class PasswordDialog {
     }
 
     public String getText() {
-
         return String.valueOf(passwordField2.getPassword());
     }
 }

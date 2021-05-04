@@ -168,13 +168,9 @@ public class Settings extends JFrame {
 
             String password = selected.getText();
 
-            
-                if (!password.isEmpty()) { // Check that password string is not empty
-                    // Change password if string is not empty
-                    
-                    authentication.setPassword(password);
-                    System.out.println(password);
-
+            if (!password.isEmpty()) { // Check that password string is not empty
+                // Change password if string is not empty
+                authentication.setPassword(password);
             }
         });
 
@@ -190,17 +186,11 @@ public class Settings extends JFrame {
 
             String email = selected.getText();
 
-            if (!email.isEmpty()) { // Check that channel string is not empty
-                // Add new channel to channels if it doesn't yet exist
-                
+            if (!email.isEmpty()) {
                 authentication.setLoggedEmail(email);
                 emailUserLabel.setText(email);
-                System.out.println(email);
-
             }
         });
-
-
 
         changeNicknameButton.addActionListener((java.awt.event.ActionEvent evt) -> {
             final JLabel selected = new JLabel("");
@@ -214,13 +204,9 @@ public class Settings extends JFrame {
 
             String nickname = selected.getText();
 
-            if (!nickname.isEmpty()) { // Check that channel string is not empty
-                // Add new channel to channels if it doesn't yet exist
-                
+            if (!nickname.isEmpty()) {
                 authentication.setLoggedNick(nickname);
                 userNicknameLabel.setText(nickname);
-                
-
             }
         });
 
