@@ -1,8 +1,11 @@
 package ChatApplication;
 
+import java.awt.Color;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 public class PasswordDialog {
 
@@ -56,7 +59,7 @@ public class PasswordDialog {
         panel.add(passwordField);
         panel.add(newPwordlabel);
         panel.add(passwordField2);
-
+        
         return panel;
     }
 
@@ -72,7 +75,7 @@ public class PasswordDialog {
         Authentication authentication = Authentication.getInstance();
         if (okEvent != null) {
             okEvent.actionPerformed(e);
-
+            
             if (String.valueOf(passwordField.getPassword()).isEmpty() || String.valueOf(passwordField2.getPassword()).isEmpty()) {
                 UIManager.put("OptionPane.okButtonText", "OK");
                 JOptionPane.showMessageDialog(null, "Täytä molemmat kentät!", "Virhe", JOptionPane.ERROR_MESSAGE);

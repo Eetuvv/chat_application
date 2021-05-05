@@ -15,6 +15,7 @@ public class Authentication {
 
     public static synchronized Authentication getInstance() {
         // Create a singleton to only create one instance at a time
+        // This way user data is not lost when switching between windows
         if (singleton == null) {
             singleton = new Authentication();
         }

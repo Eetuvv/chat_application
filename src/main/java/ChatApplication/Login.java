@@ -135,7 +135,7 @@ public class Login extends JFrame {
                     // Close login window and open chat window
                     this.setVisible(false);
                     this.dispose();
-                    Chat chatWindow = new Chat();
+                    Chat chatWindow = Chat.getInstance();
                     chatWindow.setVisible(true);
                 } else {
                     usernameField.setBackground(redBackground);

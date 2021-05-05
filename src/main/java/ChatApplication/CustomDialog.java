@@ -13,20 +13,20 @@ public class CustomDialog {
     private JDialog dialog;
     private final String title;
     private final JLabel label;
-    
+
     public CustomDialog(String title, String message) {
         this.title = title;
         this.label = new JLabel(message);
-        
+
         createAndDisplayOptionPane();
     }
-    
+
     private void createAndDisplayOptionPane() {
         setupButtons();
         JPanel pane = layoutComponents();
         optionPane = new JOptionPane(pane);
         optionPane.setOptions(new Object[]{okButton, cancelButton});
-        
+
         dialog = new JDialog();
         dialog.add(optionPane);
         dialog = optionPane.createDialog(title);
@@ -50,10 +50,10 @@ public class CustomDialog {
 
         textField = new JTextField();
         label.setFont(new java.awt.Font("Dialog", 1, 14));
-        
+
         panel.add(label);
         panel.add(textField);
-        
+
         return panel;
     }
 
@@ -69,7 +69,13 @@ public class CustomDialog {
         if (okEvent != null) {
             okEvent.actionPerformed(e);
         }
-        hide();
+        // Display error message if user tries to submit an empty text field
+        if (textField.getText().isEmpty()) {
+            UIManager.put("OptionPane.okButtonText", "OK");
+            JOptionPane.showMessageDialog(null, "Täytä kenttä!", "Virhe", JOptionPane.ERROR_MESSAGE);
+        } else {
+            hide();
+        }
     }
 
     private void handleCancelButtonClick(ActionEvent e) {

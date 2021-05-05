@@ -123,6 +123,7 @@ public class Settings extends Chat {
         logoutButton.setText("Kirjaudu ulos");
         logoutButton.setBounds(620, 675, 180, 55);
         logoutButton.setFocusable(false);
+        logoutButton.setToolTipText("Kirjaudu ulos ja palaa kirjautumisnäkymään");
 
         JSeparator separator1 = new JSeparator();
         separator1.setBounds(143, 250, 700, 1);

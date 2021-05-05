@@ -46,6 +46,7 @@ public class Chat extends JFrame {
 
     public static synchronized Chat getInstance() {
         // Create a singleton to only create one instance at a time
+        // This way messages won't be lost when eg. logging in and out
         if (singleton == null) {
             singleton = new Chat();
         }
@@ -418,12 +419,9 @@ public class Chat extends JFrame {
         });
 
         // Change message field text when channel label text is changed (when channel is changed)
-        channelLabel.addPropertyChangeListener("text", new PropertyChangeListener() {
-            @Override
-            public void propertyChange(PropertyChangeEvent evt) {
-                messageField.setText("Lähetä viesti kanavalle " + channelLabel.getText().replaceAll("\\s+", ""));
-                messageField.setForeground(new Color(190, 190, 190));
-            }
+        channelLabel.addPropertyChangeListener("text", (PropertyChangeEvent evt) -> {
+            messageField.setText("Lähetä viesti kanavalle " + channelLabel.getText().replaceAll("\\s+", ""));
+            messageField.setForeground(new Color(190, 190, 190));
         });
 
         // Set hover actions to buttons
@@ -501,15 +499,15 @@ public class Chat extends JFrame {
     public void setNicknameLabel(String nickname) {
         this.nicknameText.setText(nickname);
 
+        // Close all dialogs and reopen chat window
+        // This refreshes nickname label and whole frame
         closeAllDialogs();
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Chat chat = Chat.getInstance();
-                chat.nicknameText.setText(nickname);
-                chat.setVisible(true);
-                Settings settingsFrame = new Settings();
-                settingsFrame.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            Chat chat = Chat.getInstance();
+            chat.nicknameText.setText(nickname);
+            chat.setVisible(true);
+            Settings settingsFrame = new Settings();
+            settingsFrame.setVisible(true);
         });
     }
 
