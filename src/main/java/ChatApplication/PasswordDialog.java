@@ -6,8 +6,8 @@ import java.awt.event.ActionListener;
 
 public class PasswordDialog {
 
-    private JPasswordField passwordField = new JPasswordField();
-    private JPasswordField passwordField2 = new JPasswordField();
+    private final JPasswordField passwordField = new JPasswordField();
+    private final JPasswordField passwordField2 = new JPasswordField();
     private JOptionPane optionPane;
     private JButton okButton, cancelButton;
     private ActionListener okEvent, cancelEvent;

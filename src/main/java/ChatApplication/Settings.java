@@ -7,7 +7,7 @@ import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
 
-public class Settings extends JFrame {
+public class Settings extends Chat {
 
     private final JFrame settingsFrame = new JFrame("Asetukset");
     private final JPanel settingsPanel = new JPanel();
@@ -30,6 +30,7 @@ public class Settings extends JFrame {
         settingsFrame.setSize(1000, 800);
         settingsFrame.setResizable(false);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        this.setAlwaysOnTop(true);
 
         settingsFrame.add(settingsPanel);
         settingsPanel.setLayout(null);
@@ -207,6 +208,7 @@ public class Settings extends JFrame {
             if (!nickname.isEmpty()) {
                 authentication.setLoggedNick(nickname);
                 userNicknameLabel.setText(nickname);
+                super.setNicknameLabel(nickname);
             }
         });
 

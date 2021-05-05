@@ -8,6 +8,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
@@ -32,13 +33,23 @@ import javax.swing.UIManager;
 public class Chat extends JFrame {
 
     public final JFrame chatFrame = new JFrame("Chat");
-    private ChatChannel chatChannel = new ChatChannel();
+    private final ChatChannel chatChannel = new ChatChannel();
     public String currentChannel;
+    private final JLabel nicknameText = new JLabel("Nimimerkki");
+    private static Chat singleton = null;
 
     public Chat() {
         currentChannel = chatChannel.getCurrentChannel();
         initComponents();
         centeredFrame(chatFrame);
+    }
+
+    public static synchronized Chat getInstance() {
+        // Create a singleton to only create one instance at a time
+        if (singleton == null) {
+            singleton = new Chat();
+        }
+        return singleton;
     }
 
     // Center window
@@ -159,11 +170,10 @@ public class Chat extends JFrame {
         separator.setBounds(0, 775, 300, 1);
         separator.setForeground(new java.awt.Color(45, 45, 45));
 
-        JLabel nicknameText = new JLabel("Nimimerkki");
         nicknameText.setFocusable(false);
         nicknameText.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 25));
         nicknameText.setForeground(textColor);
-        nicknameText.setBounds(78, 650, 225, 175);
+        nicknameText.setBounds(78, 650, 100, 175);
         nicknameText.setToolTipText("Käyttäjän nimimerkki");
         // Set text placement based on text length
         if (!authentication.getLoggedNick().isEmpty()) {
@@ -464,7 +474,7 @@ public class Chat extends JFrame {
                 openSettingsButton.setBackground(new java.awt.Color(60, 60, 60));
             }
         });
-        
+
         logoutButton.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -478,6 +488,30 @@ public class Chat extends JFrame {
         });
     }
 
+    private void closeAllDialogs() {
+        Window[] windows = getWindows();
+
+        for (Window window : windows) {
+            if (window instanceof JFrame) {
+                window.dispose();
+            }
+        }
+    }
+
+    public void setNicknameLabel(String nickname) {
+        this.nicknameText.setText(nickname);
+
+        closeAllDialogs();
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                Chat chat = Chat.getInstance();
+                chat.nicknameText.setText(nickname);
+                chat.setVisible(true);
+                Settings settingsFrame = new Settings();
+                settingsFrame.setVisible(true);
+            }
+        });
+    }
 
     @Override
     public void setVisible(boolean visible) {

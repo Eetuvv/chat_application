@@ -6,7 +6,7 @@ import java.util.HashMap;
 public class ChatChannel {
 
     private final ArrayList<ChatMessage> messages;
-    HashMap<String, ChatChannel> channels;
+    public HashMap<String, ChatChannel> channels;
     String currentChannel;
 
     public ChatChannel() {
