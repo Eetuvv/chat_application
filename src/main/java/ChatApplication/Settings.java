@@ -71,7 +71,7 @@ public class Settings extends Chat {
         JLabel emailUserLabel = new JLabel(authentication.getLoggedEmail());
         emailUserLabel.setBounds(390, 360, 250, 25);
         emailUserLabel.setForeground(textColor);
-        emailUserLabel.setFont(new java.awt.Font("Segoe UI", 1, 20));
+        emailUserLabel.setFont(new java.awt.Font("Segoe UI", 1, 15));
 
         JButton changePasswordButton = new JButton();
         changePasswordButton.setBorder(new RoundedButton(10));

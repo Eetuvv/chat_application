@@ -13,7 +13,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -105,7 +104,7 @@ public class Chat extends JFrame {
         // Create all components for chat window
         JLabel channelLabel = new JLabel("# " + currentChannel);
         channelLabel.setFont(new java.awt.Font("Dialog", 1, 32));
-        channelLabel.setBounds(70, 30, 275, 50);
+        channelLabel.setBounds(70, 30, 225, 50);
         channelLabel.setForeground(textColor);
 
         // Create JList to show chat messages
