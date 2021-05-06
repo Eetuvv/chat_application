@@ -1,5 +1,4 @@
 ### Chat application made with Java Swing  
-Not quite finished yet...
 
 #### To run this application:
 <ol>
