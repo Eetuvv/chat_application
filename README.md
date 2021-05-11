@@ -1,4 +1,4 @@
-### Chat application made with Java Swing  
+Chat application with graphical user interface for Programming 4 -course. Made in Java Swing.
 
 #### To run this application:
 <ol>
